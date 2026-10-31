@@ -3,7 +3,8 @@
 🏮 **115年10月31日 陽明生活科技教室 · AI 繪圖與小宮燈文創實作研習成果展**
 
 成果網站線上展示：[https://yaoshuchin.github.io/1151031-ai-drawing-lantern/](https://yaoshuchin.github.io/1151031-ai-drawing-lantern/)  
-陽明科技中心 FB 粉絲專頁：[https://www.facebook.com/makerteens/?locale=zh_TW](https://www.facebook.com/makerteens/?locale=zh_TW)
+陽明科技中心 FB 粉絲專頁：[https://www.facebook.com/makerteens/?locale=zh_TW](https://www.facebook.com/makerteens/?locale=zh_TW)  
+小宮燈上傳圖框 (Canva 製作範本)：[https://canva.link/lepcqn369qk0y0a](https://canva.link/lepcqn369qk0y0a)
 
 ---
 
@@ -41,12 +42,18 @@
 
 ---
 
-## 💻 互動功能
+## 💻 互動功能與資源連結
 
+- **🧭 二層分類導覽列**：將「活動核心、成果展示（AI作品/現場直擊）、研習資源（PDF簡報/Canva圖框/科技中心FB）、遊戲區、互動宮燈」整合為結構清晰的二層式下拉選單。
 - **🏮 互動小宮燈模擬器**：可即時切換燈光開關、替換燈片圖案，模擬小宮燈溫潤燭光呼吸效果。
 - **🖼️ 成果展示 Gallery**：支援萬聖節、聖誕節分類篩選與全螢幕 Lightbox 放大研讀。
 - **📷 現場實況相簿**：記錄教室安全守則、AI 實作、機台操作與成品大合照。
-- **📥 簡報教材下載**：提供兩套高解析全彩 PDF 講義直接下載與線上研讀。
+- **📥 簡報教材與排版圖框**：提供兩套高解析全彩 PDF 講義下載，以及 Canva 圓形燈片圖框線上排版範本。
+- **🎮 AI 互動遊戲體驗區**：
+  1. **相片機器人** (Google Gemini AI)：多模態圖片理解與對話
+  2. **AI圖片遊戲辨識** (Google Arts & Culture · Odd One Out)：名畫中抓出 AI 偽裝者
+  3. **海洋垃圾辨識** (Code.org AI for Oceans)：機器學習模型分類與環保教育
+  4. **限時塗鴉** (Quick, Draw! with Google)：神經網絡 20 秒即時預測手繪線條
 
 ---
 

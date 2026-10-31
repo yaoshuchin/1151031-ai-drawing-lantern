@@ -120,13 +120,120 @@
           </div>
         </a>
 
-        <!-- Desktop Navigation Links -->
-        <div class="hidden md:flex items-center space-x-6 text-sm font-medium">
+        <!-- Desktop Navigation Links (Two-Level Dropdowns) -->
+        <div class="hidden md:flex items-center space-x-5 text-sm font-medium">
+          <!-- 1. 活動核心 -->
           <a href="#highlights" class="text-stone-300 hover:text-amber-400 transition-colors">活動核心</a>
-          <a href="#gallery" class="text-stone-300 hover:text-amber-400 transition-colors">AI繪圖作品</a>
-          <a href="#workshop" class="text-stone-300 hover:text-amber-400 transition-colors">現場直擊</a>
-          <a href="#slides" class="text-stone-300 hover:text-amber-400 transition-colors">教材簡報</a>
-          <a href="#lantern-sim" class="text-amber-300 font-semibold hover:text-amber-200 transition-colors flex items-center gap-1.5">
+          
+          <!-- 2. 作品與現場 (二層下拉) -->
+          <div class="relative group py-2">
+            <button class="flex items-center gap-1 text-stone-300 group-hover:text-amber-400 transition-colors focus:outline-none">
+              <span>成果展示</span>
+              <i class="fa-solid fa-chevron-down text-[10px] group-hover:rotate-180 transition-transform duration-200"></i>
+            </button>
+            <div class="absolute left-0 top-full pt-1.5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+              <div class="w-52 bg-stone-900/95 backdrop-blur-md border border-stone-700/80 rounded-xl shadow-2xl p-2 space-y-1">
+                <a href="#gallery" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-stone-200 hover:text-amber-300 hover:bg-stone-800/80 transition-colors">
+                  <i class="fa-solid fa-images text-amber-400 w-4 text-center"></i>
+                  <div>
+                    <div class="font-bold">AI 繪圖作品展</div>
+                    <div class="text-[10px] text-stone-400">萬聖節與聖誕節在地創作</div>
+                  </div>
+                </a>
+                <a href="#workshop" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-stone-200 hover:text-amber-300 hover:bg-stone-800/80 transition-colors">
+                  <i class="fa-solid fa-camera-retro text-amber-400 w-4 text-center"></i>
+                  <div>
+                    <div class="font-bold">現場直擊相簿</div>
+                    <div class="text-[10px] text-stone-400">生活科技創客實作實況</div>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- 3. 研習資源 (二層下拉) -->
+          <div class="relative group py-2">
+            <button class="flex items-center gap-1 text-stone-300 group-hover:text-amber-400 transition-colors focus:outline-none">
+              <span>研習資源</span>
+              <i class="fa-solid fa-chevron-down text-[10px] group-hover:rotate-180 transition-transform duration-200"></i>
+            </button>
+            <div class="absolute left-0 top-full pt-1.5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+              <div class="w-60 bg-stone-900/95 backdrop-blur-md border border-stone-700/80 rounded-xl shadow-2xl p-2 space-y-1">
+                <a href="#slides" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-stone-200 hover:text-amber-300 hover:bg-stone-800/80 transition-colors">
+                  <i class="fa-solid fa-file-pdf text-red-400 w-4 text-center"></i>
+                  <div>
+                    <div class="font-bold">核心教材講義 (PDF)</div>
+                    <div class="text-[10px] text-stone-400">兩套全彩簡報講義預覽/下載</div>
+                  </div>
+                </a>
+                <a href="https://canva.link/lepcqn369qk0y0a" target="_blank" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-stone-200 hover:text-cyan-300 hover:bg-stone-800/80 transition-colors">
+                  <i class="fa-solid fa-crop-simple text-cyan-400 w-4 text-center"></i>
+                  <div>
+                    <div class="font-bold flex items-center gap-1">小宮燈上傳圖框 <i class="fa-solid fa-arrow-up-right-from-square text-[9px] opacity-70"></i></div>
+                    <div class="text-[10px] text-stone-400">Canva 圓形排版圖框範本</div>
+                  </div>
+                </a>
+                <a href="https://www.facebook.com/makerteens/?locale=zh_TW" target="_blank" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-stone-200 hover:text-blue-300 hover:bg-stone-800/80 transition-colors">
+                  <i class="fa-brands fa-facebook text-[#1877F2] w-4 text-center"></i>
+                  <div>
+                    <div class="font-bold flex items-center gap-1">陽明科技中心臉書 <i class="fa-solid fa-arrow-up-right-from-square text-[9px] opacity-70"></i></div>
+                    <div class="text-[10px] text-stone-400">iSTEM 最新自造教育動態</div>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- 4. 🎮 遊戲區 (二層下拉) -->
+          <div class="relative group py-2">
+            <a href="#games" class="flex items-center gap-1.5 text-stone-300 group-hover:text-amber-400 transition-colors">
+              <i class="fa-solid fa-gamepad text-amber-400"></i>
+              <span>遊戲區</span>
+              <i class="fa-solid fa-chevron-down text-[10px] group-hover:rotate-180 transition-transform duration-200"></i>
+            </a>
+            <div class="absolute left-0 top-full pt-1.5 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 z-50">
+              <div class="w-64 bg-stone-900/95 backdrop-blur-md border border-stone-700/80 rounded-xl shadow-2xl p-2 space-y-1">
+                <a href="#games" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-amber-300 bg-amber-500/10 hover:bg-amber-500/20 transition-colors font-bold border border-amber-500/20">
+                  <i class="fa-solid fa-dice text-amber-400 w-4 text-center"></i>
+                  <div>
+                    <div>AI 互動遊戲專區</div>
+                    <div class="text-[10px] text-amber-400/80 font-normal">瀏覽 4 款前瞻 AI 體驗</div>
+                  </div>
+                </a>
+                <a href="https://gemini.google.com/share/befa79c2e84e?social_preview=false&skid=2d8ca4bd-00c1-4d57-8bdd-d20d0d3ce06c" target="_blank" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-stone-200 hover:text-purple-300 hover:bg-stone-800/80 transition-colors">
+                  <i class="fa-solid fa-robot text-purple-400 w-4 text-center"></i>
+                  <div>
+                    <div class="font-bold flex items-center gap-1">相片機器人 <i class="fa-solid fa-arrow-up-right-from-square text-[9px] opacity-70"></i></div>
+                    <div class="text-[10px] text-stone-400">Google Gemini AI 互動</div>
+                  </div>
+                </a>
+                <a href="http://artsandculture.google.com/experiment/odd-one-out/wAHNn4JsVTFOiw" target="_blank" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-stone-200 hover:text-emerald-300 hover:bg-stone-800/80 transition-colors">
+                  <i class="fa-solid fa-palette text-emerald-400 w-4 text-center"></i>
+                  <div>
+                    <div class="font-bold flex items-center gap-1">AI 圖片遊戲辨識 <i class="fa-solid fa-arrow-up-right-from-square text-[9px] opacity-70"></i></div>
+                    <div class="text-[10px] text-stone-400">Odd One Out 辨識藝術偽裝者</div>
+                  </div>
+                </a>
+                <a href="https://studio.code.org/tw/courses/oceans/units/1/lessons/1/levels/1" target="_blank" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-stone-200 hover:text-blue-300 hover:bg-stone-800/80 transition-colors">
+                  <i class="fa-solid fa-water text-blue-400 w-4 text-center"></i>
+                  <div>
+                    <div class="font-bold flex items-center gap-1">海洋垃圾辨識 <i class="fa-solid fa-arrow-up-right-from-square text-[9px] opacity-70"></i></div>
+                    <div class="text-[10px] text-stone-400">Code.org AI for Oceans</div>
+                  </div>
+                </a>
+                <a href="https://quickdraw.withgoogle.com/" target="_blank" class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs text-stone-200 hover:text-yellow-300 hover:bg-stone-800/80 transition-colors">
+                  <i class="fa-solid fa-pen-nib text-yellow-400 w-4 text-center"></i>
+                  <div>
+                    <div class="font-bold flex items-center gap-1">限時塗鴉 <i class="fa-solid fa-arrow-up-right-from-square text-[9px] opacity-70"></i></div>
+                    <div class="text-[10px] text-stone-400">Quick, Draw! with Google</div>
+                  </div>
+                </a>
+              </div>
+            </div>
+          </div>
+
+          <!-- 5. 互動宮燈 -->
+          <a href="#lantern-sim" class="text-amber-300 font-semibold hover:text-amber-200 transition-colors flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-amber-500/10 border border-amber-500/30">
             <i class="fa-solid fa-wand-magic-sparkles text-xs animate-bounce"></i> 互動宮燈
           </a>
         </div>
@@ -159,15 +266,59 @@
     </div>
 
     <!-- Mobile Navigation Drawer -->
-    <div id="mobileMenu" class="hidden md:hidden bg-stone-900 border-b border-stone-800 px-4 pt-2 pb-4 space-y-2 text-sm">
-      <a href="#highlights" onclick="toggleMobileMenu()" class="block py-2 text-stone-200 hover:text-amber-400">活動核心四大模組</a>
-      <a href="#gallery" onclick="toggleMobileMenu()" class="block py-2 text-stone-200 hover:text-amber-400">AI繪圖文創作品</a>
-      <a href="#workshop" onclick="toggleMobileMenu()" class="block py-2 text-stone-200 hover:text-amber-400">生活科技創客現場</a>
-      <a href="#slides" onclick="toggleMobileMenu()" class="block py-2 text-stone-200 hover:text-amber-400">AI魔法工作列教材</a>
-      <a href="#lantern-sim" onclick="toggleMobileMenu()" class="block py-2 text-amber-400 font-bold">🏮 互動小宮燈點燈體驗</a>
-      <a href="https://www.facebook.com/makerteens/?locale=zh_TW" target="_blank" onclick="toggleMobileMenu()" class="block py-2 text-blue-400 font-medium flex items-center gap-2 border-t border-stone-800 pt-3">
-        <i class="fa-brands fa-facebook text-base"></i> 陽明科技中心 Facebook 粉絲專頁
-      </a>
+    <div id="mobileMenu" class="hidden md:hidden bg-stone-900 border-b border-stone-800 px-4 pt-3 pb-5 space-y-3 text-sm">
+      <!-- 快速連結按鈕 -->
+      <div class="grid grid-cols-2 gap-2 pb-2 border-b border-stone-800">
+        <a href="#highlights" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-lg bg-stone-800 text-stone-200 hover:text-amber-400 text-xs font-medium text-center">活動核心</a>
+        <a href="#lantern-sim" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-lg bg-amber-500/20 text-amber-300 font-bold text-xs text-center">🏮 互動小宮燈</a>
+      </div>
+
+      <!-- 成果展示 -->
+      <div class="space-y-1">
+        <div class="text-[11px] font-bold text-stone-400 uppercase tracking-wider px-2">成果展示</div>
+        <a href="#gallery" onclick="toggleMobileMenu()" class="flex items-center gap-2 px-3 py-1.5 rounded-lg text-stone-300 hover:text-amber-400 text-xs">
+          <i class="fa-solid fa-images text-amber-400 w-4"></i> AI 繪圖文創作品展
+        </a>
+        <a href="#workshop" onclick="toggleMobileMenu()" class="flex items-center gap-2 px-3 py-1.5 rounded-lg text-stone-300 hover:text-amber-400 text-xs">
+          <i class="fa-solid fa-camera-retro text-amber-400 w-4"></i> 生活科技創客現場相簿
+        </a>
+      </div>
+
+      <!-- 研習資源 -->
+      <div class="space-y-1 pt-2 border-t border-stone-800">
+        <div class="text-[11px] font-bold text-stone-400 uppercase tracking-wider px-2">研習資源</div>
+        <a href="#slides" onclick="toggleMobileMenu()" class="flex items-center gap-2 px-3 py-1.5 rounded-lg text-stone-300 hover:text-amber-400 text-xs">
+          <i class="fa-solid fa-file-pdf text-red-400 w-4"></i> 教材簡報講義 (PDF)
+        </a>
+        <a href="https://canva.link/lepcqn369qk0y0a" target="_blank" onclick="toggleMobileMenu()" class="flex items-center gap-2 px-3 py-1.5 rounded-lg text-stone-300 hover:text-cyan-400 text-xs">
+          <i class="fa-solid fa-crop-simple text-cyan-400 w-4"></i> 小宮燈上傳圖框 (Canva 範本) <i class="fa-solid fa-arrow-up-right-from-square text-[9px] opacity-70"></i>
+        </a>
+        <a href="https://www.facebook.com/makerteens/?locale=zh_TW" target="_blank" onclick="toggleMobileMenu()" class="flex items-center gap-2 px-3 py-1.5 rounded-lg text-stone-300 hover:text-blue-400 text-xs">
+          <i class="fa-brands fa-facebook text-[#1877F2] w-4"></i> 陽明科技中心臉書 <i class="fa-solid fa-arrow-up-right-from-square text-[9px] opacity-70"></i>
+        </a>
+      </div>
+
+      <!-- 遊戲區 -->
+      <div class="space-y-1 pt-2 border-t border-stone-800">
+        <div class="flex items-center justify-between px-2">
+          <span class="text-[11px] font-bold text-amber-400 uppercase tracking-wider flex items-center gap-1.5">
+            <i class="fa-solid fa-gamepad"></i> 遊戲區 (AI 互動體驗)
+          </span>
+          <a href="#games" onclick="toggleMobileMenu()" class="text-[10px] text-stone-400 hover:text-amber-300 underline">查看專區</a>
+        </div>
+        <a href="https://gemini.google.com/share/befa79c2e84e?social_preview=false&skid=2d8ca4bd-00c1-4d57-8bdd-d20d0d3ce06c" target="_blank" onclick="toggleMobileMenu()" class="flex items-center gap-2 px-3 py-1.5 rounded-lg text-stone-300 hover:text-purple-400 text-xs">
+          <i class="fa-solid fa-robot text-purple-400 w-4"></i> 相片機器人 (Gemini AI) <i class="fa-solid fa-arrow-up-right-from-square text-[9px] opacity-70"></i>
+        </a>
+        <a href="http://artsandculture.google.com/experiment/odd-one-out/wAHNn4JsVTFOiw" target="_blank" onclick="toggleMobileMenu()" class="flex items-center gap-2 px-3 py-1.5 rounded-lg text-stone-300 hover:text-emerald-400 text-xs">
+          <i class="fa-solid fa-palette text-emerald-400 w-4"></i> AI 圖片遊戲辨識 (Odd One Out) <i class="fa-solid fa-arrow-up-right-from-square text-[9px] opacity-70"></i>
+        </a>
+        <a href="https://studio.code.org/tw/courses/oceans/units/1/lessons/1/levels/1" target="_blank" onclick="toggleMobileMenu()" class="flex items-center gap-2 px-3 py-1.5 rounded-lg text-stone-300 hover:text-blue-400 text-xs">
+          <i class="fa-solid fa-water text-blue-400 w-4"></i> 海洋垃圾辨識 (Code.org) <i class="fa-solid fa-arrow-up-right-from-square text-[9px] opacity-70"></i>
+        </a>
+        <a href="https://quickdraw.withgoogle.com/" target="_blank" onclick="toggleMobileMenu()" class="flex items-center gap-2 px-3 py-1.5 rounded-lg text-stone-300 hover:text-yellow-400 text-xs">
+          <i class="fa-solid fa-pen-nib text-yellow-400 w-4"></i> 限時塗鴉 (Quick, Draw!) <i class="fa-solid fa-arrow-up-right-from-square text-[9px] opacity-70"></i>
+        </a>
+      </div>
     </div>
   </nav>
 
@@ -705,7 +856,11 @@
           </p>
         </div>
 
-        <div class="mt-6 md:mt-0 flex gap-3">
+        <div class="mt-6 md:mt-0 flex flex-wrap gap-2.5">
+          <a href="https://canva.link/lepcqn369qk0y0a" target="_blank" class="px-4 py-2.5 rounded-xl bg-gradient-to-r from-teal-600 to-cyan-600 hover:from-teal-500 hover:to-cyan-500 text-white font-bold text-xs sm:text-sm shadow flex items-center gap-2 transition-all" title="在 Canva 開啟小宮燈圓形排版圖框範本">
+            <i class="fa-solid fa-crop-simple"></i> 小宮燈上傳圖框 (Canva)
+            <i class="fa-solid fa-arrow-up-right-from-square text-[10px] opacity-70"></i>
+          </a>
           <a href="AI魔法工作列.pdf" target="_blank" download class="px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs sm:text-sm shadow flex items-center gap-2 transition-all">
             <i class="fa-solid fa-file-pdf"></i> 下載《AI魔法工作列》PDF
           </a>
@@ -848,6 +1003,146 @@
     </div>
   </section>
 
+  <!-- ================= SECTION: AI INTERACTIVE GAMES ================= -->
+  <section id="games" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-stone-200 dark:border-stone-800">
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+      <div>
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-500/30 text-purple-600 dark:text-purple-400 text-xs font-bold uppercase tracking-wider mb-2">
+          <i class="fa-solid fa-gamepad"></i> AI Interactive Playground
+        </div>
+        <h2 class="font-serif text-3xl sm:text-4xl font-extrabold text-stone-900 dark:text-white mt-1">
+          🎮 AI 互動遊戲體驗區
+        </h2>
+        <p class="text-stone-600 dark:text-stone-300 text-sm sm:text-base mt-2 max-w-3xl leading-relaxed">
+          精選 4 款享譽全球的生成式與辨識型 AI 趣味互動遊戲！從 Google Gemini 多模態對話、藝術偽裝辨別、海洋環保機器學習訓練到神經網路即時塗鴉猜謎，動手體驗前瞻科技的奇妙魅力。
+        </p>
+      </div>
+
+      <div class="mt-4 md:mt-0">
+        <span class="text-xs font-mono text-stone-400 bg-stone-100 dark:bg-stone-800 px-3.5 py-2 rounded-xl border border-stone-200 dark:border-stone-700 shadow-sm inline-flex items-center gap-1.5">
+          <i class="fa-solid fa-sparkles text-amber-500"></i> 免費免安裝 · 點擊即玩
+        </span>
+      </div>
+    </div>
+
+    <!-- 4 Game Cards Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      
+      <!-- Game 1: 相片機器人 -->
+      <div class="glass-card rounded-2xl p-6 shadow-md border border-stone-200 dark:border-stone-800 flex flex-col justify-between group hover:border-purple-400 dark:hover:border-purple-500/50 transition-all hover:shadow-xl hover:-translate-y-1 bg-white/50 dark:bg-stone-900/50">
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <div class="w-12 h-12 rounded-xl bg-purple-500/15 text-purple-500 flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
+              <i class="fa-solid fa-robot"></i>
+            </div>
+            <span class="px-2.5 py-1 rounded-full bg-purple-500/10 text-purple-600 dark:text-purple-300 text-[11px] font-bold border border-purple-500/20 font-mono">Gemini AI</span>
+          </div>
+
+          <h3 class="text-xl font-serif font-black text-stone-900 dark:text-stone-100 mb-2 group-hover:text-purple-500 transition-colors">
+            相片機器人
+          </h3>
+          <p class="text-stone-600 dark:text-stone-300 text-xs sm:text-sm leading-relaxed mb-4">
+            體驗 Google Gemini 多模態生成式 AI！上傳圖片或進行互動對話，深度探索 AI 智慧影像辨識、風格轉換與文字生成能力。
+          </p>
+
+          <div class="flex flex-wrap gap-1.5 mb-6">
+            <span class="text-[10px] px-2 py-0.5 rounded bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-400">#多模態AI</span>
+            <span class="text-[10px] px-2 py-0.5 rounded bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-400">#影像理解</span>
+          </div>
+        </div>
+
+        <a href="https://gemini.google.com/share/befa79c2e84e?social_preview=false&skid=2d8ca4bd-00c1-4d57-8bdd-d20d0d3ce06c" target="_blank" class="w-full py-2.5 px-4 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-bold text-xs shadow flex items-center justify-center gap-1.5 transition-all">
+          <i class="fa-solid fa-comments"></i> 進入相片機器人 <i class="fa-solid fa-arrow-up-right-from-square text-[9px] opacity-75"></i>
+        </a>
+      </div>
+
+      <!-- Game 2: AI圖片遊戲辨識 (Odd One Out) -->
+      <div class="glass-card rounded-2xl p-6 shadow-md border border-stone-200 dark:border-stone-800 flex flex-col justify-between group hover:border-emerald-400 dark:hover:border-emerald-500/50 transition-all hover:shadow-xl hover:-translate-y-1 bg-white/50 dark:bg-stone-900/50">
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <div class="w-12 h-12 rounded-xl bg-emerald-500/15 text-emerald-500 flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
+              <i class="fa-solid fa-palette"></i>
+            </div>
+            <span class="px-2.5 py-1 rounded-full bg-emerald-500/10 text-emerald-600 dark:text-emerald-300 text-[11px] font-bold border border-emerald-500/20 font-mono">Google Arts</span>
+          </div>
+
+          <h3 class="text-xl font-serif font-black text-stone-900 dark:text-stone-100 mb-2 group-hover:text-emerald-500 transition-colors">
+            AI 圖片遊戲辨識
+          </h3>
+          <p class="text-stone-600 dark:text-stone-300 text-xs sm:text-sm leading-relaxed mb-4">
+            Google 文化藝術實驗室《Odd One Out》！在一組真實人類藝術名畫中，揪出唯一一張由 AI 生成的「偽裝臥底」，挑戰視覺眼力極限。
+          </p>
+
+          <div class="flex flex-wrap gap-1.5 mb-6">
+            <span class="text-[10px] px-2 py-0.5 rounded bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-400">#藝術偽裝</span>
+            <span class="text-[10px] px-2 py-0.5 rounded bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-400">#眼力考驗</span>
+          </div>
+        </div>
+
+        <a href="http://artsandculture.google.com/experiment/odd-one-out/wAHNn4JsVTFOiw" target="_blank" class="w-full py-2.5 px-4 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs shadow flex items-center justify-center gap-1.5 transition-all">
+          <i class="fa-solid fa-eye"></i> 挑戰 Odd One Out <i class="fa-solid fa-arrow-up-right-from-square text-[9px] opacity-75"></i>
+        </a>
+      </div>
+
+      <!-- Game 3: 海洋垃圾辨識 -->
+      <div class="glass-card rounded-2xl p-6 shadow-md border border-stone-200 dark:border-stone-800 flex flex-col justify-between group hover:border-cyan-400 dark:hover:border-cyan-500/50 transition-all hover:shadow-xl hover:-translate-y-1 bg-white/50 dark:bg-stone-900/50">
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <div class="w-12 h-12 rounded-xl bg-cyan-500/15 text-cyan-500 flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
+              <i class="fa-solid fa-water"></i>
+            </div>
+            <span class="px-2.5 py-1 rounded-full bg-cyan-500/10 text-cyan-600 dark:text-cyan-300 text-[11px] font-bold border border-cyan-500/20 font-mono">Code.org</span>
+          </div>
+
+          <h3 class="text-xl font-serif font-black text-stone-900 dark:text-stone-100 mb-2 group-hover:text-cyan-500 transition-colors">
+            海洋垃圾辨識
+          </h3>
+          <p class="text-stone-600 dark:text-stone-300 text-xs sm:text-sm leading-relaxed mb-4">
+            Code.org 打造的《AI for Oceans》！親手標註資料訓練機器學習分類模型，教導 AI 清理塑膠垃圾、保護魚類生態，理解演算法道德與偏見。
+          </p>
+
+          <div class="flex flex-wrap gap-1.5 mb-6">
+            <span class="text-[10px] px-2 py-0.5 rounded bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-400">#機器學習</span>
+            <span class="text-[10px] px-2 py-0.5 rounded bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-400">#生態教育</span>
+          </div>
+        </div>
+
+        <a href="https://studio.code.org/tw/courses/oceans/units/1/lessons/1/levels/1" target="_blank" class="w-full py-2.5 px-4 rounded-xl bg-cyan-600 hover:bg-cyan-700 text-white font-bold text-xs shadow flex items-center justify-center gap-1.5 transition-all">
+          <i class="fa-solid fa-fish"></i> 啟動海洋清潔 <i class="fa-solid fa-arrow-up-right-from-square text-[9px] opacity-75"></i>
+        </a>
+      </div>
+
+      <!-- Game 4: 限時塗鴉 -->
+      <div class="glass-card rounded-2xl p-6 shadow-md border border-stone-200 dark:border-stone-800 flex flex-col justify-between group hover:border-amber-400 dark:hover:border-amber-500/50 transition-all hover:shadow-xl hover:-translate-y-1 bg-white/50 dark:bg-stone-900/50">
+        <div>
+          <div class="flex items-center justify-between mb-4">
+            <div class="w-12 h-12 rounded-xl bg-amber-500/15 text-amber-500 flex items-center justify-center text-xl group-hover:scale-110 transition-transform">
+              <i class="fa-solid fa-pen-nib"></i>
+            </div>
+            <span class="px-2.5 py-1 rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-300 text-[11px] font-bold border border-amber-500/20 font-mono">Quick, Draw!</span>
+          </div>
+
+          <h3 class="text-xl font-serif font-black text-stone-900 dark:text-stone-100 mb-2 group-hover:text-amber-500 transition-colors">
+            限時塗鴉
+          </h3>
+          <p class="text-stone-600 dark:text-stone-300 text-xs sm:text-sm leading-relaxed mb-4">
+            你畫 AI 猜！在限時 20 秒內隨手塗鴉指定事物，由全球數百萬人塗鴉訓練出的類神經網絡即時預測你畫的每一筆每一劃。
+          </p>
+
+          <div class="flex flex-wrap gap-1.5 mb-6">
+            <span class="text-[10px] px-2 py-0.5 rounded bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-400">#類神經網路</span>
+            <span class="text-[10px] px-2 py-0.5 rounded bg-stone-100 dark:bg-stone-800 text-stone-600 dark:text-stone-400">#即時預測</span>
+          </div>
+        </div>
+
+        <a href="https://quickdraw.withgoogle.com/" target="_blank" class="w-full py-2.5 px-4 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-bold text-xs shadow flex items-center justify-center gap-1.5 transition-all">
+          <i class="fa-solid fa-paintbrush"></i> 開始限時塗鴉 <i class="fa-solid fa-arrow-up-right-from-square text-[9px] opacity-75"></i>
+        </a>
+      </div>
+
+    </div>
+  </section>
+
   <!-- ================= SECTION 6: WORKSHOP REFLECTION & HIGHLIGHTS ================= -->
   <section class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="bg-gradient-to-r from-stone-900 via-amber-950/80 to-stone-900 text-white rounded-3xl p-8 sm:p-12 shadow-2xl border border-amber-600/30 relative overflow-hidden">
@@ -900,15 +1195,25 @@
           </div>
         </div>
 
-        <div class="flex flex-wrap items-center justify-center md:justify-end gap-4 text-xs">
+        <div class="flex flex-wrap items-center justify-center md:justify-end gap-3.5 text-xs">
           <a href="#home" class="hover:text-amber-400 transition-colors">回頂端</a>
           <span>·</span>
           <a href="#gallery" class="hover:text-amber-400 transition-colors">AI繪圖作品</a>
           <span>·</span>
           <a href="#workshop" class="hover:text-amber-400 transition-colors">現場相簿</a>
           <span>·</span>
-          <a href="https://www.facebook.com/makerteens/?locale=zh_TW" target="_blank" class="text-blue-400 hover:text-blue-300 font-medium transition-colors flex items-center gap-1.5" title="陽明科技中心 Facebook 粉絲專頁">
-            <i class="fa-brands fa-facebook text-sm text-[#1877F2]"></i> 陽明科技中心 FB
+          <a href="#slides" class="hover:text-amber-400 transition-colors">教材簡報</a>
+          <span>·</span>
+          <a href="#games" class="hover:text-purple-400 text-purple-300 font-medium transition-colors flex items-center gap-1">
+            <i class="fa-solid fa-gamepad text-xs"></i> 遊戲區
+          </a>
+          <span>·</span>
+          <a href="https://canva.link/lepcqn369qk0y0a" target="_blank" class="hover:text-cyan-400 text-cyan-300 font-medium transition-colors flex items-center gap-1">
+            <i class="fa-solid fa-crop-simple text-xs"></i> Canva 圖框
+          </a>
+          <span>·</span>
+          <a href="https://www.facebook.com/makerteens/?locale=zh_TW" target="_blank" class="text-blue-400 hover:text-blue-300 font-medium transition-colors flex items-center gap-1">
+            <i class="fa-brands fa-facebook text-xs text-[#1877F2]"></i> 陽明科技中心 FB
           </a>
           <span>·</span>
           <a href="https://github.com/yaoshuchin/1151031-ai-drawing-lantern" target="_blank" class="hover:text-amber-400 transition-colors flex items-center gap-1">
