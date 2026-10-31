@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="zh-TW" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>1151031AI繪圖-小宮燈實作 成果網站 | 陽明生活科技教室</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@400;600;700;900&family=Outfit:wght@300;400;500;600;700;800&family=Noto+Sans+TC:wght@300;400;500;700;900&display=swap" rel="stylesheet">
+  <!-- FontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Noto Sans TC"', '"Outfit"', 'sans-serif'],
+            serif: ['"Noto Serif TC"', 'serif'],
+            display: ['"Outfit"', '"Noto Sans TC"', 'sans-serif'],
+          },
+          colors: {
+            lantern: {
+              50: '#fffbeb',
+              100: '#fef3c7',
+              200: '#fde68a',
+              300: '#fcd34d',
+              400: '#fbbf24',
+              500: '#f59e0b',
+              600: '#d97706',
+              700: '#b45309',
+              800: '#92400e',
+              900: '#78350f',
+            },
+            crimson: {
+              50: '#fdf2f2',
+              100: '#fde8e8',
+              500: '#e02424',
+              600: '#c81e1e',
+              700: '#9b1c1c',
+              800: '#771d1d',
+              900: '#4a1111',
+            }
+          },
+          animation: {
+            'glow-pulse': 'glowPulse 3s ease-in-out infinite',
+            'float': 'float 4s ease-in-out infinite',
+            'flicker': 'lanternFlicker 2s infinite',
+          },
+          keyframes: {
+            glowPulse: {
+              '0%, 100%': { opacity: '0.4', transform: 'scale(1)' },
+              '50%': { opacity: '0.8', transform: 'scale(1.05)' },
+            },
+            float: {
+              '0%, 100%': { transform: 'translateY(0)' },
+              '50%': { transform: 'translateY(-8px)' },
+            },
+            lanternFlicker: {
+              '0%, 100%': { filter: 'drop-shadow(0 0 25px rgba(245, 158, 11, 0.7))' },
+              '30%': { filter: 'drop-shadow(0 0 18px rgba(245, 158, 11, 0.5))' },
+              '70%': { filter: 'drop-shadow(0 0 35px rgba(251, 191, 36, 0.85))' },
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* Custom Glassmorphism & Lantern Aesthetic */
+    .glass-card {
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid rgba(245, 158, 11, 0.2);
+    }
+    .dark .glass-card {
+      background: rgba(23, 23, 30, 0.85);
+      border: 1px solid rgba(245, 158, 11, 0.18);
+    }
+    .hero-glow {
+      background: radial-gradient(circle at 50% 30%, rgba(245, 158, 11, 0.18) 0%, rgba(180, 83, 9, 0.05) 50%, transparent 75%);
+    }
+    .palace-wood-border {
+      border: 2px solid #b45309;
+      box-shadow: 0 0 0 2px rgba(251, 191, 36, 0.3);
+    }
+    .lantern-light-active {
+      box-shadow: 0 0 60px 15px rgba(245, 158, 11, 0.6), inset 0 0 30px rgba(251, 191, 36, 0.5);
+    }
+    /* Hide scrollbar for gallery previews */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  </style>
+</head>
+<body class="bg-stone-50 text-stone-800 dark:bg-[#121318] dark:text-stone-100 transition-colors duration-300 font-sans selection:bg-amber-500 selection:text-white">
+
+  <!-- ================= TOP NAVIGATION ================= -->
+  <nav class="sticky top-0 z-50 bg-stone-900/90 backdrop-blur-md border-b border-amber-900/30 text-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16">
+        <!-- Brand -->
+        <a href="#home" class="flex items-center gap-3 group">
+          <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-amber-600 to-amber-400 flex items-center justify-center text-white shadow-lg shadow-amber-500/30 group-hover:rotate-6 transition-transform">
+            <i class="fa-solid fa-lightbulb text-lg"></i>
+          </div>
+          <div>
+            <span class="font-serif font-black tracking-wide text-lg sm:text-xl text-amber-300">1151031 AI繪圖 × 小宮燈實作</span>
+            <span class="hidden sm:inline-block text-xs text-stone-400 font-mono ml-2">陽明生活科技教室成果展</span>
+          </div>
+        </a>
+
+        <!-- Desktop Navigation Links -->
+        <div class="hidden md:flex items-center space-x-6 text-sm font-medium">
+          <a href="#highlights" class="text-stone-300 hover:text-amber-400 transition-colors">活動核心</a>
+          <a href="#gallery" class="text-stone-300 hover:text-amber-400 transition-colors">AI繪圖作品</a>
+          <a href="#workshop" class="text-stone-300 hover:text-amber-400 transition-colors">現場直擊</a>
+          <a href="#slides" class="text-stone-300 hover:text-amber-400 transition-colors">教材簡報</a>
+          <a href="#lantern-sim" class="text-amber-300 font-semibold hover:text-amber-200 transition-colors flex items-center gap-1.5">
+            <i class="fa-solid fa-wand-magic-sparkles text-xs animate-bounce"></i> 互動宮燈
+          </a>
+        </div>
+
+        <!-- Right Action Buttons -->
+        <div class="flex items-center gap-3">
+          <!-- Palace Lantern Light Mode Toggle -->
+          <button id="lanternThemeBtn" onclick="toggleLanternGlow()" title="切換小宮燈點燈氛圍" class="px-3 py-1.5 rounded-lg bg-amber-500/20 border border-amber-400/40 text-amber-300 text-xs font-semibold hover:bg-amber-500/30 transition-all flex items-center gap-1.5">
+            <i class="fa-solid fa-fire text-amber-400 animate-pulse"></i>
+            <span id="glowStatusText">宮燈點亮中</span>
+          </button>
+          
+          <!-- GitHub Repo Link -->
+          <a href="https://github.com/yaoshuchin/1151031-ai-drawing-lantern" target="_blank" class="w-9 h-9 rounded-lg bg-stone-800 hover:bg-stone-700 text-stone-300 hover:text-white flex items-center justify-center transition-colors border border-stone-700" title="查看 GitHub 原始碼">
+            <i class="fa-brands fa-github text-base"></i>
+          </a>
+
+          <!-- Mobile Menu Button -->
+          <button id="mobileMenuBtn" class="md:hidden p-2 rounded-lg text-stone-400 hover:text-white" onclick="toggleMobileMenu()">
+            <i class="fa-solid fa-bars text-xl"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Mobile Navigation Drawer -->
+    <div id="mobileMenu" class="hidden md:hidden bg-stone-900 border-b border-stone-800 px-4 pt-2 pb-4 space-y-2 text-sm">
+      <a href="#highlights" onclick="toggleMobileMenu()" class="block py-2 text-stone-200 hover:text-amber-400">活動核心四大模組</a>
+      <a href="#gallery" onclick="toggleMobileMenu()" class="block py-2 text-stone-200 hover:text-amber-400">AI繪圖文創作品</a>
+      <a href="#workshop" onclick="toggleMobileMenu()" class="block py-2 text-stone-200 hover:text-amber-400">生活科技創客現場</a>
+      <a href="#slides" onclick="toggleMobileMenu()" class="block py-2 text-stone-200 hover:text-amber-400">AI魔法工作列教材</a>
+      <a href="#lantern-sim" onclick="toggleMobileMenu()" class="block py-2 text-amber-400 font-bold">🏮 互動小宮燈點燈體驗</a>
+    </div>
+  </nav>
+
+  <!-- ================= HERO SECTION ================= -->
+  <header id="home" class="relative overflow-hidden pt-12 pb-20 hero-glow border-b border-amber-500/10">
+    <!-- Ambient glowing shapes -->
+    <div class="absolute -top-24 left-1/2 -translate-x-1/2 w-[700px] h-[500px] bg-gradient-to-b from-amber-500/15 via-red-500/10 to-transparent blur-3xl rounded-full pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        <!-- Left Hero Copy -->
+        <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-amber-100 dark:bg-amber-950/60 border border-amber-300 dark:border-amber-700/60 text-amber-900 dark:text-amber-300 text-xs sm:text-sm font-semibold shadow-sm">
+            <span class="w-2 h-2 rounded-full bg-amber-500 animate-ping"></span>
+            研習成果專案紀錄 · 115年10月31日
+          </div>
+
+          <h1 class="font-serif text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight leading-tight text-stone-900 dark:text-white">
+            <span class="text-amber-600 dark:text-amber-400">1151031</span><br>
+            AI 繪圖 × 小宮燈實作
+          </h1>
+          
+          <p class="text-lg sm:text-xl text-stone-600 dark:text-stone-300 leading-relaxed font-normal">
+            結合 <strong class="text-amber-600 dark:text-amber-400 font-semibold">AI 魔法工作列提示詞工程</strong>、<strong class="text-amber-600 dark:text-amber-400 font-semibold">在地文創節慶構圖</strong> 與 <strong class="text-amber-600 dark:text-amber-400 font-semibold">生活科技手作自造</strong>，將數位圖像完美實體化為溫潤發光的木質小宮燈與文創胸章！
+          </p>
+
+          <!-- Badges -->
+          <div class="flex flex-wrap justify-center lg:justify-start gap-2 pt-2">
+            <span class="px-3 py-1 bg-stone-200/80 dark:bg-stone-800 text-stone-700 dark:text-stone-300 text-xs rounded-md font-medium border border-stone-300 dark:border-stone-700"><i class="fa-solid fa-wand-magic-sparkles mr-1 text-amber-500"></i> AI 圖像詠唱</span>
+            <span class="px-3 py-1 bg-stone-200/80 dark:bg-stone-800 text-stone-700 dark:text-stone-300 text-xs rounded-md font-medium border border-stone-300 dark:border-stone-700"><i class="fa-solid fa-torii-gate mr-1 text-red-500"></i> 小宮燈榫接組裝</span>
+            <span class="px-3 py-1 bg-stone-200/80 dark:bg-stone-800 text-stone-700 dark:text-stone-300 text-xs rounded-md font-medium border border-stone-300 dark:border-stone-700"><i class="fa-solid fa-stamp mr-1 text-blue-500"></i> 胸章機壓扣實作</span>
+            <span class="px-3 py-1 bg-stone-200/80 dark:bg-stone-800 text-stone-700 dark:text-stone-300 text-xs rounded-md font-medium border border-stone-300 dark:border-stone-700"><i class="fa-solid fa-chalkboard-user mr-1 text-emerald-500"></i> 陽明科技中心 iSTEM</span>
+          </div>
+
+          <!-- CTA Buttons -->
+          <div class="flex flex-wrap justify-center lg:justify-start gap-4 pt-4">
+            <a href="#gallery" class="px-6 py-3.5 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white font-bold shadow-lg shadow-amber-500/25 flex items-center gap-2 transform active:scale-95 transition-all">
+              <i class="fa-solid fa-images"></i> 欣賞 AI 文創成果
+            </a>
+            <a href="#workshop" class="px-6 py-3.5 rounded-xl bg-white dark:bg-stone-800 border border-stone-300 dark:border-stone-700 hover:border-amber-400 text-stone-800 dark:text-stone-200 font-bold shadow-sm hover:shadow flex items-center gap-2 transition-all">
+              <i class="fa-solid fa-camera"></i> 現場直擊照片
+            </a>
+            <a href="#lantern-sim" class="px-5 py-3.5 rounded-xl bg-amber-50 dark:bg-amber-950/40 border border-amber-300 dark:border-amber-700 text-amber-800 dark:text-amber-300 font-bold hover:bg-amber-100 transition-all flex items-center gap-2">
+              <i class="fa-solid fa-sun text-amber-500 animate-spin"></i> 體驗宮燈點亮
+            </a>
+          </div>
+
+          <!-- Quick Stats Counter -->
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-6 border-t border-stone-200 dark:border-stone-800/80 text-center">
+            <div class="p-3 rounded-lg bg-stone-100/70 dark:bg-stone-800/50">
+              <div class="text-2xl font-black text-amber-600 dark:text-amber-400">4 大</div>
+              <div class="text-xs text-stone-500 dark:text-stone-400 font-medium">提速教學模組</div>
+            </div>
+            <div class="p-3 rounded-lg bg-stone-100/70 dark:bg-stone-800/50">
+              <div class="text-2xl font-black text-amber-600 dark:text-amber-400">2 套</div>
+              <div class="text-xs text-stone-500 dark:text-stone-400 font-medium">實戰講義簡報</div>
+            </div>
+            <div class="p-3 rounded-lg bg-stone-100/70 dark:bg-stone-800/50">
+              <div class="text-2xl font-black text-amber-600 dark:text-amber-400">12+ 景</div>
+              <div class="text-xs text-stone-500 dark:text-stone-400 font-medium">教室實作直擊</div>
+            </div>
+            <div class="p-3 rounded-lg bg-stone-100/70 dark:bg-stone-800/50">
+              <div class="text-2xl font-black text-amber-600 dark:text-amber-400">100%</div>
+              <div class="text-xs text-stone-500 dark:text-stone-400 font-medium">實體宮燈點燈</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right Hero Visual Card -->
+        <div class="lg:col-span-5 relative">
+          <div class="relative mx-auto max-w-sm sm:max-w-md">
+            <!-- Decorative Backing Lantern Frame -->
+            <div class="absolute -inset-2 bg-gradient-to-r from-amber-500 via-red-500 to-amber-600 rounded-3xl blur-lg opacity-40 animate-glow-pulse"></div>
+            
+            <div class="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-amber-600/30 bg-stone-900 group">
+              <!-- Hero Featured Image (Live Lamp + Badges + Laptop) -->
+              <img src="assets/workshop/PXL_20261031_044714282.jpg" alt="AI繪圖小宮燈現場實作精選" class="w-full h-80 sm:h-96 object-cover object-center group-hover:scale-105 transition-transform duration-700">
+              
+              <!-- Floating Pill Over Image -->
+              <div class="absolute top-4 left-4 px-3 py-1 rounded-full bg-stone-900/80 backdrop-blur-md text-amber-300 text-xs font-semibold border border-amber-500/40 flex items-center gap-1.5 shadow">
+                <i class="fa-solid fa-trophy text-amber-400"></i> 今日成果實體直擊
+              </div>
+
+              <!-- Overlay Card Info -->
+              <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-stone-950 via-stone-950/80 to-transparent p-5 text-white">
+                <h3 class="text-lg font-bold font-serif text-amber-300">手作小宮燈 × AI 創意胸章</h3>
+                <p class="text-xs text-stone-300 mt-1">
+                  從螢幕提示詞詠唱，到現場雷切透光木質小宮燈，師生共同點亮科技與美學之光。
+                </p>
+                <div class="flex items-center justify-between mt-3 text-xs text-amber-400 font-mono">
+                  <span><i class="fa-regular fa-clock mr-1"></i>2026/10/31 研習</span>
+                  <span class="bg-amber-500/20 px-2 py-0.5 rounded text-amber-300">實體點燈成功</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Mini Overlay Thumbnail -->
+            <div class="absolute -bottom-6 -left-6 w-28 h-28 sm:w-32 sm:h-32 rounded-2xl overflow-hidden border-2 border-amber-400 shadow-xl bg-stone-800 hidden sm:block transform hover:rotate-2 transition-transform">
+              <img src="assets/ai/ai-halloween-watercolor.png" alt="萬聖節AI圖" class="w-full h-full object-cover">
+            </div>
+            <div class="absolute -top-6 -right-6 w-28 h-28 sm:w-32 sm:h-32 rounded-2xl overflow-hidden border-2 border-amber-400 shadow-xl bg-stone-800 hidden sm:block transform hover:-rotate-2 transition-transform">
+              <img src="assets/ai/ai-christmas-2.png" alt="聖誕節AI圖" class="w-full h-full object-cover">
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= SECTION 1: CORE MODULES (FOUR PILLARS) ================= -->
+  <section id="highlights" class="py-20 bg-stone-100/80 dark:bg-stone-900/60 border-b border-stone-200 dark:border-stone-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <h2 class="text-xs sm:text-sm font-bold tracking-widest text-amber-600 dark:text-amber-400 uppercase mb-2">Curriculum Highlights</h2>
+        <h3 class="font-serif text-3xl sm:text-4xl font-extrabold text-stone-900 dark:text-white">AI 魔法工作列 · 四大核心模組</h3>
+        <p class="mt-4 text-stone-600 dark:text-stone-300 text-base">
+          不僅僅是生成一張圖片，而是建構一套從「提示詞工程」到「實體文創商品」與「教學行政提速」的完整賦能流程。
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <!-- Module 1 -->
+        <div class="glass-card rounded-2xl p-6 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between">
+          <div>
+            <div class="w-14 h-14 rounded-xl bg-gradient-to-tr from-amber-500 to-amber-300 text-stone-900 flex items-center justify-center text-2xl shadow-md mb-5">
+              <i class="fa-solid fa-wand-magic-sparkles"></i>
+            </div>
+            <h4 class="text-xl font-bold font-serif text-stone-900 dark:text-stone-100 mb-2">1. 實體創作提速</h4>
+            <p class="text-sm text-stone-600 dark:text-stone-400 leading-relaxed mb-4">
+              AI 快速生成節慶與在地元素圖像，結合直徑尺寸規格化，免去繁瑣修圖，迅速轉化為胸章、馬克杯與小宮燈透光面板。
+            </p>
+          </div>
+          <div class="pt-4 border-t border-amber-500/20 text-xs font-semibold text-amber-700 dark:text-amber-400 flex items-center gap-1">
+            <i class="fa-solid fa-circle-check"></i> 節慶主題・小宮燈實作
+          </div>
+        </div>
+
+        <!-- Module 2 -->
+        <div class="glass-card rounded-2xl p-6 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between">
+          <div>
+            <div class="w-14 h-14 rounded-xl bg-gradient-to-tr from-rose-500 to-rose-300 text-stone-900 flex items-center justify-center text-2xl shadow-md mb-5">
+              <i class="fa-solid fa-play"></i>
+            </div>
+            <h4 class="text-xl font-bold font-serif text-stone-900 dark:text-stone-100 mb-2">2. 影音教材革命</h4>
+            <p class="text-sm text-stone-600 dark:text-stone-400 leading-relaxed mb-4">
+              自動辨識演講逐字稿、快速摘錄關鍵教學重點，將枯燥課本轉化為互動故事劇本與視覺化教材。
+            </p>
+          </div>
+          <div class="pt-4 border-t border-rose-500/20 text-xs font-semibold text-rose-700 dark:text-rose-400 flex items-center gap-1">
+            <i class="fa-solid fa-circle-check"></i> 語音轉文字・教材重構
+          </div>
+        </div>
+
+        <!-- Module 3 -->
+        <div class="glass-card rounded-2xl p-6 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between">
+          <div>
+            <div class="w-14 h-14 rounded-xl bg-gradient-to-tr from-blue-500 to-blue-300 text-stone-900 flex items-center justify-center text-2xl shadow-md mb-5">
+              <i class="fa-solid fa-file-signature"></i>
+            </div>
+            <h4 class="text-xl font-bold font-serif text-stone-900 dark:text-stone-100 mb-2">3. 行政庶務解脫</h4>
+            <p class="text-sm text-stone-600 dark:text-stone-400 leading-relaxed mb-4">
+              掌握「政策規範 + 教學目標 = 專屬內容」高效詠唱公式，自動生成會議記錄、活動成果手冊與公文草案。
+            </p>
+          </div>
+          <div class="pt-4 border-t border-blue-500/20 text-xs font-semibold text-blue-700 dark:text-blue-400 flex items-center gap-1">
+            <i class="fa-solid fa-circle-check"></i> 成果手冊・自動摘要
+          </div>
+        </div>
+
+        <!-- Module 4 -->
+        <div class="glass-card rounded-2xl p-6 shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between">
+          <div>
+            <div class="w-14 h-14 rounded-xl bg-gradient-to-tr from-emerald-500 to-emerald-300 text-stone-900 flex items-center justify-center text-2xl shadow-md mb-5">
+              <i class="fa-solid fa-shield-halved"></i>
+            </div>
+            <h4 class="text-xl font-bold font-serif text-stone-900 dark:text-stone-100 mb-2">4. 實戰風險防禦</h4>
+            <p class="text-sm text-stone-600 dark:text-stone-400 leading-relaxed mb-4">
+              現場活動管理術、人流控制與損壞備案；遵守 AI 版權規範與校園資訊安全原則，打造安全可靠的教學環境。
+            </p>
+          </div>
+          <div class="pt-4 border-t border-emerald-500/20 text-xs font-semibold text-emerald-700 dark:text-emerald-400 flex items-center gap-1">
+            <i class="fa-solid fa-circle-check"></i> 智慧財產權・安全守則
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= SECTION 2: AI ARTWORKS SHOWCASE ================= -->
+  <section id="gallery" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+      <div>
+        <span class="text-xs sm:text-sm font-bold tracking-widest text-amber-600 dark:text-amber-400 uppercase">AI Creative Gallery</span>
+        <h2 class="font-serif text-3xl sm:text-4xl font-extrabold text-stone-900 dark:text-white mt-1">AI 繪圖文創成果專區</h2>
+        <p class="text-stone-600 dark:text-stone-400 mt-2 text-sm sm:text-base">
+          學員與講師以萬聖節與聖誕節為主題，融入台灣地標（台北101、夜市小吃、中式牌樓）實測產出的精彩作品。
+        </p>
+      </div>
+
+      <!-- Gallery Filter Buttons -->
+      <div class="mt-6 md:mt-0 flex flex-wrap gap-2">
+        <button onclick="filterGallery('all')" class="gallery-filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-amber-500 text-white shadow-sm transition-all" data-filter="all">全部精選 (5)</button>
+        <button onclick="filterGallery('halloween')" class="gallery-filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-stone-200 dark:bg-stone-800 text-stone-700 dark:text-stone-300 hover:bg-amber-100 transition-all" data-filter="halloween">🎃 萬聖節夜市</button>
+        <button onclick="filterGallery('christmas')" class="gallery-filter-btn px-4 py-2 rounded-xl text-xs sm:text-sm font-semibold bg-stone-200 dark:bg-stone-800 text-stone-700 dark:text-stone-300 hover:bg-amber-100 transition-all" data-filter="christmas">🎄 聖誕節璀璨夜</button>
+      </div>
+    </div>
+
+    <!-- Gallery Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      
+      <!-- Artwork 1: Halloween Watercolor -->
+      <div class="artwork-item gallery-halloween group glass-card rounded-2xl overflow-hidden shadow-lg border border-stone-200 dark:border-stone-800 flex flex-col">
+        <div class="relative overflow-hidden aspect-square bg-stone-900 cursor-pointer" onclick="openLightbox('assets/ai/ai-halloween-watercolor.png', '萬聖節快樂 · 台灣地標水彩插畫風', '融入台北101、中正紀念堂、吸血鬼變裝、小幽靈與黑貓，呈現活潑且細膩的水彩手繪質感，適合印製於小宮燈透光片。')">
+          <img src="assets/ai/ai-halloween-watercolor.png" alt="萬聖節水彩AI圖" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          <div class="absolute inset-0 bg-stone-950/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white">
+            <span class="px-4 py-2 rounded-full bg-stone-900/80 backdrop-blur text-xs font-medium border border-amber-400 flex items-center gap-1.5">
+              <i class="fa-solid fa-magnifying-glass-plus text-amber-400"></i> 點擊放大預覽
+            </span>
+          </div>
+          <span class="absolute top-3 right-3 px-2.5 py-1 rounded-md bg-stone-900/80 backdrop-blur text-amber-400 text-xs font-mono font-bold">萬聖主題</span>
+        </div>
+        <div class="p-5 flex-1 flex flex-col justify-between">
+          <div>
+            <h3 class="font-serif text-lg font-bold text-stone-900 dark:text-stone-100">萬聖節快樂 · 水彩童趣插畫</h3>
+            <p class="text-xs text-stone-500 dark:text-stone-400 mt-1 line-clamp-2">
+              結合萬聖節南瓜提籃、吸血鬼披風與台北101背景，柔和的水彩筆觸與燈光交織，透光效果極佳。
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-stone-200 dark:border-stone-800 flex items-center justify-between text-xs text-stone-500 dark:text-stone-400">
+            <span><i class="fa-solid fa-paintbrush text-amber-500 mr-1"></i>水彩風格 / 手繪</span>
+            <span class="font-semibold text-amber-600 dark:text-amber-400">小宮燈燈片適配</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Artwork 2: Halloween Manga Night Market -->
+      <div class="artwork-item gallery-halloween group glass-card rounded-2xl overflow-hidden shadow-lg border border-stone-200 dark:border-stone-800 flex flex-col">
+        <div class="relative overflow-hidden aspect-square bg-stone-900 cursor-pointer" onclick="openLightbox('assets/ai/ai-halloween-manga.jpg', '萬聖節快樂 · 台灣夜市不給糖就搗蛋', '極具台灣在地特色的夜市小吃街景（地瓜球、大腸包小腸攤位），融入萬聖節日系漫畫線條風格，是本次文創胸章熱門圖樣！')">
+          <img src="assets/ai/ai-halloween-manga.jpg" alt="萬聖節夜市漫畫風AI圖" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          <div class="absolute inset-0 bg-stone-950/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white">
+            <span class="px-4 py-2 rounded-full bg-stone-900/80 backdrop-blur text-xs font-medium border border-amber-400 flex items-center gap-1.5">
+              <i class="fa-solid fa-magnifying-glass-plus text-amber-400"></i> 點擊放大預覽
+            </span>
+          </div>
+          <span class="absolute top-3 right-3 px-2.5 py-1 rounded-md bg-stone-900/80 backdrop-blur text-amber-400 text-xs font-mono font-bold">萬聖主題</span>
+        </div>
+        <div class="p-5 flex-1 flex flex-col justify-between">
+          <div>
+            <h3 class="font-serif text-lg font-bold text-stone-900 dark:text-stone-100">台灣萬聖夜市 · 漫畫線條風</h3>
+            <p class="text-xs text-stone-500 dark:text-stone-400 mt-1 line-clamp-2">
+              「地瓜球」、「大腸包小腸」經典攤位，與戴巫師帽討糖的孩子們熱鬧同框，在地文化感十足。
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-stone-200 dark:border-stone-800 flex items-center justify-between text-xs text-stone-500 dark:text-stone-400">
+            <span><i class="fa-solid fa-store text-amber-500 mr-1"></i>在地夜市 / 漫畫線條</span>
+            <span class="font-semibold text-amber-600 dark:text-amber-400">胸章壓扣熱門款</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Artwork 3: Christmas Festive Traditional Arch -->
+      <div class="artwork-item gallery-christmas group glass-card rounded-2xl overflow-hidden shadow-lg border border-stone-200 dark:border-stone-800 flex flex-col">
+        <div class="relative overflow-hidden aspect-square bg-stone-900 cursor-pointer" onclick="openLightbox('assets/ai/ai-christmas-1.jpg', '耶誕節快樂 · 臺灣之光暖心慶祝', '傳統中式紅柱牌樓、節慶紅燈籠與台北101同框，展現傳統宮燈美學與現代節慶氛圍的奇妙融合。')">
+          <img src="assets/ai/ai-christmas-1.jpg" alt="聖誕節傳統牌樓AI圖" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          <div class="absolute inset-0 bg-stone-950/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white">
+            <span class="px-4 py-2 rounded-full bg-stone-900/80 backdrop-blur text-xs font-medium border border-amber-400 flex items-center gap-1.5">
+              <i class="fa-solid fa-magnifying-glass-plus text-amber-400"></i> 點擊放大預覽
+            </span>
+          </div>
+          <span class="absolute top-3 right-3 px-2.5 py-1 rounded-md bg-stone-900/80 backdrop-blur text-rose-400 text-xs font-mono font-bold">聖誕主題</span>
+        </div>
+        <div class="p-5 flex-1 flex flex-col justify-between">
+          <div>
+            <h3 class="font-serif text-lg font-bold text-stone-900 dark:text-stone-100">臺灣之光 · 暖心慶祝聖誕</h3>
+            <p class="text-xs text-stone-500 dark:text-stone-400 mt-1 line-clamp-2">
+              傳統中式宮燈牌樓飾以聖誕紅與雪景，溫暖金色暖光呼應宮燈本體，營造祥和喜樂的節日祝福。
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-stone-200 dark:border-stone-800 flex items-center justify-between text-xs text-stone-500 dark:text-stone-400">
+            <span><i class="fa-solid fa-landmark text-amber-500 mr-1"></i>宮燈牌樓 / 台北101</span>
+            <span class="font-semibold text-rose-600 dark:text-rose-400">宮燈典藏首選</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Artwork 4: Christmas Reindeer Cinematic Snow -->
+      <div class="artwork-item gallery-christmas group glass-card rounded-2xl overflow-hidden shadow-lg border border-stone-200 dark:border-stone-800 flex flex-col">
+        <div class="relative overflow-hidden aspect-square bg-stone-900 cursor-pointer" onclick="openLightbox('assets/ai/ai-christmas-2.png', '耶誕節快樂 · 傳遞祝福 分享溫暖', '雪夜璀璨夜景、金色光芒馴鹿雕飾與台北101遠景，充滿電影般的情境張力與光影層次。')">
+          <img src="assets/ai/ai-christmas-2.png" alt="聖誕節雪景金鹿AI圖" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          <div class="absolute inset-0 bg-stone-950/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white">
+            <span class="px-4 py-2 rounded-full bg-stone-900/80 backdrop-blur text-xs font-medium border border-amber-400 flex items-center gap-1.5">
+              <i class="fa-solid fa-magnifying-glass-plus text-amber-400"></i> 點擊放大預覽
+            </span>
+          </div>
+          <span class="absolute top-3 right-3 px-2.5 py-1 rounded-md bg-stone-900/80 backdrop-blur text-rose-400 text-xs font-mono font-bold">聖誕主題</span>
+        </div>
+        <div class="p-5 flex-1 flex flex-col justify-between">
+          <div>
+            <h3 class="font-serif text-lg font-bold text-stone-900 dark:text-stone-100">傳遞祝福 · 光影金色馴鹿</h3>
+            <p class="text-xs text-stone-500 dark:text-stone-400 mt-1 line-clamp-2">
+              結合雪人、精緻聖誕樹飾品與燈光燦爛的台北都會夜景，視覺平衡感絕佳，深獲研習老師喜愛。
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-stone-200 dark:border-stone-800 flex items-center justify-between text-xs text-stone-500 dark:text-stone-400">
+            <span><i class="fa-solid fa-snowflake text-amber-500 mr-1"></i>電影級光影 / 角色一致性</span>
+            <span class="font-semibold text-rose-600 dark:text-rose-400">文創卡片與燈片</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Artwork 5: Christmas Night Market Hot Coffee -->
+      <div class="artwork-item gallery-christmas group glass-card rounded-2xl overflow-hidden shadow-lg border border-stone-200 dark:border-stone-800 flex flex-col">
+        <div class="relative overflow-hidden aspect-square bg-stone-900 cursor-pointer" onclick="openLightbox('assets/ai/ai-christmas-3.jpg', '耶誕節快樂 · 平安喜樂 幸福台灣', '熱鬧的台北聖誕市集街頭，揮手熱情問候，捧著熱咖啡漫步在彩燈聖誕樹下。')">
+          <img src="assets/ai/ai-christmas-3.jpg" alt="聖誕市集AI圖" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+          <div class="absolute inset-0 bg-stone-950/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center text-white">
+            <span class="px-4 py-2 rounded-full bg-stone-900/80 backdrop-blur text-xs font-medium border border-amber-400 flex items-center gap-1.5">
+              <i class="fa-solid fa-magnifying-glass-plus text-amber-400"></i> 點擊放大預覽
+            </span>
+          </div>
+          <span class="absolute top-3 right-3 px-2.5 py-1 rounded-md bg-stone-900/80 backdrop-blur text-rose-400 text-xs font-mono font-bold">聖誕主題</span>
+        </div>
+        <div class="p-5 flex-1 flex flex-col justify-between">
+          <div>
+            <h3 class="font-serif text-lg font-bold text-stone-900 dark:text-stone-100">台北聖誕市集 · 溫馨相伴</h3>
+            <p class="text-xs text-stone-500 dark:text-stone-400 mt-1 line-clamp-2">
+              生活化市集攤位、捷運出口與繁華彩燈交織，呈現寫實親切的台灣都會耶誕歡慶氣氛。
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-stone-200 dark:border-stone-800 flex items-center justify-between text-xs text-stone-500 dark:text-stone-400">
+            <span><i class="fa-solid fa-mug-hot text-amber-500 mr-1"></i>台灣街景 / 溫暖寫實</span>
+            <span class="font-semibold text-rose-600 dark:text-rose-400">生活情境生成</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= SECTION 3: INTERACTIVE PALACE LANTERN SIMULATOR ================= -->
+  <section id="lantern-sim" class="py-20 bg-gradient-to-b from-stone-950 via-[#18120d] to-stone-950 text-white relative overflow-hidden border-y border-amber-900/40">
+    <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-amber-600/10 via-transparent to-transparent pointer-events-none"></div>
+
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+      <span class="text-xs sm:text-sm font-bold tracking-widest text-amber-400 uppercase">Interactive Maker Experience</span>
+      <h2 class="font-serif text-3xl sm:text-4xl font-extrabold mt-1 text-amber-200">🏮 線上小宮燈 · 點燈互動體驗</h2>
+      <p class="text-stone-300 text-sm sm:text-base max-w-2xl mx-auto mt-2">
+        小宮燈採用木質榫接骨架與雷切窗花，內嵌高亮度暖光 LED 與半透明透光片。點擊下方按鈕，體驗親手點亮專屬小宮燈的溫暖時刻！
+      </p>
+
+      <!-- Palace Lantern Simulation Model -->
+      <div class="mt-12 flex flex-col items-center justify-center">
+        <!-- Lantern Structure Container -->
+        <div id="palaceLanternBox" class="relative w-64 sm:w-80 h-96 sm:h-[420px] rounded-3xl bg-stone-900/90 palace-wood-border p-4 flex flex-col justify-between items-center transition-all duration-700 shadow-2xl lantern-light-active">
+          
+          <!-- Lantern Top Roof / Eaves -->
+          <div class="w-full h-8 bg-gradient-to-r from-amber-900 via-amber-700 to-amber-900 rounded-t-xl border-b-2 border-amber-500 flex items-center justify-center relative shadow-md">
+            <div class="w-6 h-6 -top-3 rounded-full bg-amber-500 border-2 border-amber-300 shadow absolute"></div>
+            <span class="text-[11px] font-serif font-black tracking-widest text-amber-200">陽明宮燈 · 祥光普照</span>
+          </div>
+
+          <!-- Central Translucent Light Window with Artwork -->
+          <div class="relative w-full flex-1 my-3 rounded-2xl overflow-hidden bg-amber-950/40 border border-amber-500/40 flex items-center justify-center shadow-inner group">
+            <!-- Simulated Light Glow Behind Artwork -->
+            <div id="simulatedBulb" class="absolute inset-0 bg-gradient-to-t from-amber-400/80 via-amber-200/50 to-amber-500/80 rounded-2xl transition-opacity duration-700 opacity-90 blur-sm animate-flicker"></div>
+            
+            <!-- Active Display Artwork inside the Lantern Window -->
+            <img id="lanternWindowImg" src="assets/ai/ai-halloween-watercolor.png" alt="宮燈透光片圖案" class="relative z-10 w-48 sm:w-56 h-48 sm:h-56 object-contain rounded-xl p-2 drop-shadow-md transition-all duration-500">
+
+            <!-- Watermark / Tag -->
+            <div class="absolute bottom-2 inset-x-0 z-20 text-center">
+              <span id="lanternArtTitle" class="px-3 py-1 rounded-full bg-stone-950/70 text-[11px] font-mono text-amber-300 border border-amber-500/30">萬聖節水彩風透光片</span>
+            </div>
+          </div>
+
+          <!-- Lantern Bottom Stand -->
+          <div class="w-full h-8 bg-gradient-to-r from-amber-900 via-amber-800 to-amber-900 rounded-b-xl border-t-2 border-amber-600 flex items-center justify-around px-4">
+            <span class="text-[10px] text-amber-400 font-mono">1151031 iSTEM</span>
+            <span class="w-3 h-3 rounded-full bg-amber-400 shadow-sm animate-pulse"></span>
+            <span class="text-[10px] text-amber-400 font-mono">AI 魔法創客</span>
+          </div>
+        </div>
+
+        <!-- Interactive Control Console -->
+        <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
+          <!-- Toggle Light Switch -->
+          <button id="toggleLightBtn" onclick="toggleLanternLight()" class="px-6 py-3 rounded-xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-stone-950 font-black shadow-lg shadow-amber-500/40 transition-all flex items-center gap-2">
+            <i class="fa-solid fa-power-off"></i> <span id="toggleLightLabel">關閉宮燈</span>
+          </button>
+
+          <!-- Switch Artwork Inside Lantern -->
+          <button onclick="nextLanternArt()" class="px-5 py-3 rounded-xl bg-stone-800 border border-amber-500/40 hover:border-amber-400 text-amber-300 font-bold transition-all flex items-center gap-2">
+            <i class="fa-solid fa-rotate"></i> 更換燈片圖案
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= SECTION 4: WORKSHOP FIELD PHOTOS ================= -->
+  <section id="workshop" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="text-center max-w-3xl mx-auto mb-16">
+      <span class="text-xs sm:text-sm font-bold tracking-widest text-amber-600 dark:text-amber-400 uppercase">On-site Records</span>
+      <h2 class="font-serif text-3xl sm:text-4xl font-extrabold text-stone-900 dark:text-white mt-1">生活科技教室 · 現場實作直擊</h2>
+      <p class="text-stone-600 dark:text-stone-300 text-sm sm:text-base mt-2">
+        記錄陽明生活科技教室（iSTEM）研習實況：從 AI 詠唱、大螢幕教案解析，到雷切木構組裝與手壓胸章機實作。
+      </p>
+    </div>
+
+    <!-- 12 Workshop Photos Grid -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-5">
+      
+      <!-- Photo 1: Lantern finished product and badge press -->
+      <div class="group relative rounded-xl overflow-hidden shadow-md bg-stone-900 cursor-pointer aspect-4/3" onclick="openLightbox('assets/workshop/PXL_20261031_044714282.jpg', '壓扣機、AI列印稿與點亮的小宮燈', '工作桌上陳列著精緻雷切組裝完成並已點亮暖光的木雕小宮燈，旁邊是紅色手壓胸章機以及剛印出的AI繪圖圓形圖稿。')">
+        <img src="assets/workshop/PXL_20261031_044714282.jpg" alt="小宮燈成果與胸章機" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+        <div class="absolute inset-0 bg-stone-950/50 opacity-0 group-hover:opacity-100 transition-opacity p-4 flex flex-col justify-end text-white text-xs">
+          <p class="font-bold text-amber-300">壓扣機與點亮的小宮燈</p>
+          <p class="text-[11px] text-stone-300">文創實體成果全景</p>
+        </div>
+      </div>
+
+      <!-- Photo 2: Teachers using laptops -->
+      <div class="group relative rounded-xl overflow-hidden shadow-md bg-stone-900 cursor-pointer aspect-4/3" onclick="openLightbox('assets/workshop/PXL_20261031_044706942.jpg', '學員專注實作與AI詠唱測試', '研習老師在生活科技教室的工作長桌上，透過筆記型電腦積極進行提示詞設計與圖像生成測試。')">
+        <img src="assets/workshop/PXL_20261031_044706942.jpg" alt="學員實作AI" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+        <div class="absolute inset-0 bg-stone-950/50 opacity-0 group-hover:opacity-100 transition-opacity p-4 flex flex-col justify-end text-white text-xs">
+          <p class="font-bold text-amber-300">學員專注實作</p>
+          <p class="text-[11px] text-stone-300">筆電提示詞微調與實測</p>
+        </div>
+      </div>
+
+      <!-- Photo 3: Wood assembly hands-on -->
+      <div class="group relative rounded-xl overflow-hidden shadow-md bg-stone-900 cursor-pointer aspect-4/3" onclick="openLightbox('assets/workshop/PXL_20261031_044709188.jpg', '小宮燈結構組裝與線材配置', '老師親手將雷切木板榫接組合，細心固定LED燈源模組與透光窗片。')">
+        <img src="assets/workshop/PXL_20261031_044709188.jpg" alt="結構組裝" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+        <div class="absolute inset-0 bg-stone-950/50 opacity-0 group-hover:opacity-100 transition-opacity p-4 flex flex-col justify-end text-white text-xs">
+          <p class="font-bold text-amber-300">木質榫接組裝</p>
+          <p class="text-[11px] text-stone-300">手工組裝與線材安裝</p>
+        </div>
+      </div>
+
+      <!-- Photo 4: Interactive Display Wall -->
+      <div class="group relative rounded-xl overflow-hidden shadow-md bg-stone-900 cursor-pointer aspect-4/3" onclick="openLightbox('assets/workshop/PXL_20261031_044712007.jpg', '大螢幕互動觸控教學示範', '透過大螢幕雲端相簿與投影片，即時呈現教學大綱、成果照片與實作指引。')">
+        <img src="assets/workshop/PXL_20261031_044712007.jpg" alt="觸控大螢幕教學" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+        <div class="absolute inset-0 bg-stone-950/50 opacity-0 group-hover:opacity-100 transition-opacity p-4 flex flex-col justify-end text-white text-xs">
+          <p class="font-bold text-amber-300">大螢幕觸控示範</p>
+          <p class="text-[11px] text-stone-300">教案展示與即時同步</p>
+        </div>
+      </div>
+
+      <!-- Photo 5: AI Comic Book -->
+      <div class="group relative rounded-xl overflow-hidden shadow-md bg-stone-900 cursor-pointer aspect-4/3" onclick="openLightbox('assets/workshop/PXL_20261031_042254207.jpg', '鴻海教育基金會《決戰太陽之國》AI歷險漫畫', '研習現場提供鴻海教育基金會出版的超進化人工智慧歷險漫畫，豐富現場教學參考資源。')">
+        <img src="assets/workshop/PXL_20261031_042254207.jpg" alt="AI歷險漫畫與教材" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+        <div class="absolute inset-0 bg-stone-950/50 opacity-0 group-hover:opacity-100 transition-opacity p-4 flex flex-col justify-end text-white text-xs">
+          <p class="font-bold text-amber-300">AI 教學科普圖書</p>
+          <p class="text-[11px] text-stone-300">《決戰太陽之國》講義教材</p>
+        </div>
+      </div>
+
+      <!-- Photo 6: Classroom Safety Poster -->
+      <div class="group relative rounded-xl overflow-hidden shadow-md bg-stone-900 cursor-pointer aspect-4/3" onclick="openLightbox('assets/workshop/PXL_20261031_042241418.jpg', '生活科技教室安全守則 iSTEM', '牆面張貼的生活科技教室安全守則，確保創客加工與工具使用安全無虞。')">
+        <img src="assets/workshop/PXL_20261031_042241418.jpg" alt="安全守則" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+        <div class="absolute inset-0 bg-stone-950/50 opacity-0 group-hover:opacity-100 transition-opacity p-4 flex flex-col justify-end text-white text-xs">
+          <p class="font-bold text-amber-300">安全第一 iSTEM</p>
+          <p class="text-[11px] text-stone-300">生活科技教室安全守則</p>
+        </div>
+      </div>
+
+      <!-- Photo 7: Tech Center Environment -->
+      <div class="group relative rounded-xl overflow-hidden shadow-md bg-stone-900 cursor-pointer aspect-4/3" onclick="openLightbox('assets/workshop/PXL_20261031_042257158.jpg', 'AI T-Learn 科技教育中心', '專業的創客科技教室，配備線鋸機、鑽床與展示櫃，提供完整創客學習環境。')">
+        <img src="assets/workshop/PXL_20261031_042257158.jpg" alt="科技教育中心" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+        <div class="absolute inset-0 bg-stone-950/50 opacity-0 group-hover:opacity-100 transition-opacity p-4 flex flex-col justify-end text-white text-xs">
+          <p class="font-bold text-amber-300">AI T-Learn 中心</p>
+          <p class="text-[11px] text-stone-300">完善自造教育空間</p>
+        </div>
+      </div>
+
+      <!-- Photo 8: Preparation Desk -->
+      <div class="group relative rounded-xl overflow-hidden shadow-md bg-stone-900 cursor-pointer aspect-4/3" onclick="openLightbox('assets/workshop/PXL_20261031_042247218.jpg', '材料準備與小宮燈材料包', '講師與工作人員於工作桌準備小宮燈雷射切割木片包與五金零件。')">
+        <img src="assets/workshop/PXL_20261031_042247218.jpg" alt="材料準備" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+        <div class="absolute inset-0 bg-stone-950/50 opacity-0 group-hover:opacity-100 transition-opacity p-4 flex flex-col justify-end text-white text-xs">
+          <p class="font-bold text-amber-300">課前備料整理</p>
+          <p class="text-[11px] text-stone-300">小宮燈組件材料包</p>
+        </div>
+      </div>
+
+      <!-- Photo 9: Maker Table Overview -->
+      <div class="group relative rounded-xl overflow-hidden shadow-md bg-stone-900 cursor-pointer aspect-4/3" onclick="openLightbox('assets/workshop/PXL_20261031_042248453.jpg', '創客工作桌與材料包特寫', '整齊擺放的小宮燈組裝材料包與教學漫畫。')">
+        <img src="assets/workshop/PXL_20261031_042248453.jpg" alt="材料包特寫" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+        <div class="absolute inset-0 bg-stone-950/50 opacity-0 group-hover:opacity-100 transition-opacity p-4 flex flex-col justify-end text-white text-xs">
+          <p class="font-bold text-amber-300">材料包特寫</p>
+          <p class="text-[11px] text-stone-300">雷切組件與說明手冊</p>
+        </div>
+      </div>
+
+      <!-- Photo 10: Classroom Panorama -->
+      <div class="group relative rounded-xl overflow-hidden shadow-md bg-stone-900 cursor-pointer aspect-4/3" onclick="openLightbox('assets/workshop/PXL_20261031_042243880.jpg', '生活科技教室全景設備', '電動線鋸機檯一字排開，展現生活科技專業實作教室的齊全裝備。')">
+        <img src="assets/workshop/PXL_20261031_042243880.jpg" alt="教室設備全景" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+        <div class="absolute inset-0 bg-stone-950/50 opacity-0 group-hover:opacity-100 transition-opacity p-4 flex flex-col justify-end text-white text-xs">
+          <p class="font-bold text-amber-300">專業機台設備</p>
+          <p class="text-[11px] text-stone-300">線鋸機與木工加工區</p>
+        </div>
+      </div>
+
+      <!-- Photo 11: Display Cabinets -->
+      <div class="group relative rounded-xl overflow-hidden shadow-md bg-stone-900 cursor-pointer aspect-4/3" onclick="openLightbox('assets/workshop/PXL_20261031_042245960.jpg', '創客作品展示櫃與安全區', '展示架上擺設過往學生自造的木質模型、小木屋與機關作品。')">
+        <img src="assets/workshop/PXL_20261031_042245960.jpg" alt="學生自造展示" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+        <div class="absolute inset-0 bg-stone-950/50 opacity-0 group-hover:opacity-100 transition-opacity p-4 flex flex-col justify-end text-white text-xs">
+          <p class="font-bold text-amber-300">自造作品陳列</p>
+          <p class="text-[11px] text-stone-300">生活科技創客成果</p>
+        </div>
+      </div>
+
+      <!-- Photo 12: Interactive Discussion -->
+      <div class="group relative rounded-xl overflow-hidden shadow-md bg-stone-900 cursor-pointer aspect-4/3" onclick="openLightbox('assets/workshop/PXL_20261031_044708117.jpg', '學員熱烈交流與參數調校', '老師們互相觀摩彼此生成的 AI 節慶圖像與排版效果。')">
+        <img src="assets/workshop/PXL_20261031_044708117.jpg" alt="熱烈交流" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+        <div class="absolute inset-0 bg-stone-950/50 opacity-0 group-hover:opacity-100 transition-opacity p-4 flex flex-col justify-end text-white text-xs">
+          <p class="font-bold text-amber-300">同儕交流互學</p>
+          <p class="text-[11px] text-stone-300">分享最佳提示詞參數</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= SECTION 5: PRESENTATION SLIDES & RESOURCES ================= -->
+  <section id="slides" class="py-20 bg-stone-100/80 dark:bg-stone-900/60 border-t border-stone-200 dark:border-stone-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+        <div>
+          <span class="text-xs sm:text-sm font-bold tracking-widest text-amber-600 dark:text-amber-400 uppercase">Slide Decks & Downloads</span>
+          <h2 class="font-serif text-3xl sm:text-4xl font-extrabold text-stone-900 dark:text-white mt-1">核心教材與簡報講義</h2>
+          <p class="text-stone-600 dark:text-stone-300 text-sm sm:text-base mt-2">
+            本次研習使用的兩套核心簡報檔案，可直接於線上預覽或下載離線研讀。
+          </p>
+        </div>
+
+        <div class="mt-6 md:mt-0 flex gap-3">
+          <a href="AI魔法工作列.pptx" download class="px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-600 text-white font-bold text-xs sm:text-sm shadow flex items-center gap-2 transition-all">
+            <i class="fa-solid fa-download"></i> 下載《AI魔法工作列》
+          </a>
+          <a href="The_Teacher_s_AI_Toolkit.pptx" download class="px-4 py-2.5 rounded-xl bg-stone-800 hover:bg-stone-700 text-white font-bold text-xs sm:text-sm shadow flex items-center gap-2 border border-stone-700 transition-all">
+            <i class="fa-solid fa-download"></i> 下載《Teacher's Toolkit》
+          </a>
+        </div>
+      </div>
+
+      <!-- Slide Decks Feature Cards -->
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+        
+        <!-- Deck 1 Card -->
+        <div class="glass-card rounded-2xl p-6 shadow-md border border-stone-200 dark:border-stone-800 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="px-3 py-1 rounded-full bg-amber-500/20 text-amber-600 dark:text-amber-400 text-xs font-bold">主力課程講義 · 21 頁全彩</span>
+              <span class="text-xs text-stone-400 font-mono">23.6 MB .pptx</span>
+            </div>
+            <h3 class="text-2xl font-serif font-black text-stone-900 dark:text-stone-100 mb-2">AI 實戰：讓工作提速的魔法</h3>
+            <p class="text-stone-600 dark:text-stone-300 text-sm leading-relaxed mb-6">
+              涵蓋四大提速模組：實體文創產出（徽章、馬克杯、小宮燈營隊）、排版地獄解脫術、活動攤位限時產出人流管理、高效詠唱公式及會議記錄自動辨識轉手冊。
+            </p>
+
+            <!-- Slide Thumbnails Preview Strip -->
+            <div class="grid grid-cols-3 gap-3 mb-6">
+              <img src="assets/slides/slide_1.png" alt="Slide 1" class="rounded-lg shadow border border-stone-200 dark:border-stone-700 object-cover aspect-video cursor-pointer hover:opacity-90" onclick="openLightbox('assets/slides/slide_1.png', '封面：AI實戰讓工作提速的魔法', '創意教學與高效自動化指南')">
+              <img src="assets/slides/slide_2.png" alt="Slide 2" class="rounded-lg shadow border border-stone-200 dark:border-stone-700 object-cover aspect-video cursor-pointer hover:opacity-90" onclick="openLightbox('assets/slides/slide_2.png', '四大模組架構', '實體創作、影音革命、行政庶務、實戰防禦')">
+              <img src="assets/slides/slide_3.png" alt="Slide 3" class="rounded-lg shadow border border-stone-200 dark:border-stone-700 object-cover aspect-video cursor-pointer hover:opacity-90" onclick="openLightbox('assets/slides/slide_3.png', 'AI驅動文創產出', 'AI快速生成圖案 -> 應用於徽章與馬克杯 -> 結合小宮燈營隊製作')">
+            </div>
+          </div>
+
+          <div class="pt-4 border-t border-stone-200 dark:border-stone-800 flex items-center justify-between">
+            <span class="text-xs text-stone-500">講師專業設計 · 實用導向</span>
+            <a href="AI魔法工作列.pptx" download class="text-xs font-bold text-amber-600 dark:text-amber-400 hover:underline flex items-center gap-1">
+              下載 PPTX 檔案 <i class="fa-solid fa-arrow-right"></i>
+            </a>
+          </div>
+        </div>
+
+        <!-- Deck 2 Card -->
+        <div class="glass-card rounded-2xl p-6 shadow-md border border-stone-200 dark:border-stone-800 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between mb-4">
+              <span class="px-3 py-1 rounded-full bg-blue-500/20 text-blue-600 dark:text-blue-400 text-xs font-bold">延伸工具箱 · 21 頁全彩</span>
+              <span class="text-xs text-stone-400 font-mono">20.6 MB .pptx</span>
+            </div>
+            <h3 class="text-2xl font-serif font-black text-stone-900 dark:text-stone-100 mb-2">The Teacher's AI Toolkit</h3>
+            <p class="text-stone-600 dark:text-stone-300 text-sm leading-relaxed mb-6">
+              專為第一線教育工作者量身打造的實用工具指南：從備課教案生成、活動策劃視覺設計，到校園行政與評量優化的無痛升級方程式。
+            </p>
+
+            <!-- Slide Thumbnails Preview Strip -->
+            <div class="grid grid-cols-3 gap-3 mb-6">
+              <img src="assets/slides/slide_10.png" alt="Slide 10" class="rounded-lg shadow border border-stone-200 dark:border-stone-700 object-cover aspect-video cursor-pointer hover:opacity-90" onclick="openLightbox('assets/slides/slide_10.png', '高效詠唱公式', 'Box A 政策規範 + Box B 教學目標 = Box C 專屬特色內容')">
+              <img src="assets/slides/slide_15.png" alt="Slide 15" class="rounded-lg shadow border border-stone-200 dark:border-stone-700 object-cover aspect-video cursor-pointer hover:opacity-90" onclick="openLightbox('assets/slides/slide_15.png', '會議記錄不求人', '自動辨識演講逐字稿 -> 快速摘錄會議重點 -> 生成網頁版精華手冊')">
+              <img src="assets/slides/slide_21.png" alt="Slide 21" class="rounded-lg shadow border border-stone-200 dark:border-stone-700 object-cover aspect-video cursor-pointer hover:opacity-90" onclick="openLightbox('assets/slides/slide_21.png', '結語：時間才是最無價的', 'AI是強大提速放大器，徹底解放雙手與大腦')">
+            </div>
+          </div>
+
+          <div class="pt-4 border-t border-stone-200 dark:border-stone-800 flex items-center justify-between">
+            <span class="text-xs text-stone-500">無痛升級 · 教學賦能</span>
+            <a href="The_Teacher_s_AI_Toolkit.pptx" download class="text-xs font-bold text-blue-600 dark:text-blue-400 hover:underline flex items-center gap-1">
+              下載 PPTX 檔案 <i class="fa-solid fa-arrow-right"></i>
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Slide Gallery Carousel / Explorer -->
+      <div class="glass-card rounded-2xl p-6 shadow-sm border border-stone-200 dark:border-stone-800">
+        <div class="flex items-center justify-between mb-4">
+          <h4 class="font-serif font-bold text-stone-900 dark:text-stone-100 flex items-center gap-2">
+            <i class="fa-regular fa-images text-amber-500"></i> 《AI魔法工作列》全彩簡報精選速覽
+          </h4>
+          <span class="text-xs text-stone-400">點擊任一幻燈片放大研讀</span>
+        </div>
+        
+        <div class="flex gap-4 overflow-x-auto pb-4 pt-2 no-scrollbar">
+          <!-- Slide items -->
+          <div class="flex-none w-64 group cursor-pointer" onclick="openLightbox('assets/slides/slide_1.png', 'Slide 1: 封面', 'AI實戰：讓工作提速的魔法')">
+            <div class="rounded-xl overflow-hidden border border-stone-200 dark:border-stone-700 shadow-sm group-hover:shadow-md transition-all">
+              <img src="assets/slides/slide_1.png" alt="Slide 1" class="w-full object-cover aspect-video group-hover:scale-105 transition-transform duration-300">
+            </div>
+            <p class="text-xs text-stone-500 dark:text-stone-400 mt-2 truncate font-medium">1. 實戰封面指南</p>
+          </div>
+
+          <div class="flex-none w-64 group cursor-pointer" onclick="openLightbox('assets/slides/slide_2.png', 'Slide 2: 四大模組', '魔法工作列四大模組')">
+            <div class="rounded-xl overflow-hidden border border-stone-200 dark:border-stone-700 shadow-sm group-hover:shadow-md transition-all">
+              <img src="assets/slides/slide_2.png" alt="Slide 2" class="w-full object-cover aspect-video group-hover:scale-105 transition-transform duration-300">
+            </div>
+            <p class="text-xs text-stone-500 dark:text-stone-400 mt-2 truncate font-medium">2. 魔法工作列模組</p>
+          </div>
+
+          <div class="flex-none w-64 group cursor-pointer" onclick="openLightbox('assets/slides/slide_3.png', 'Slide 3: 文創產出', 'AI驅動文創產出流程')">
+            <div class="rounded-xl overflow-hidden border border-stone-200 dark:border-stone-700 shadow-sm group-hover:shadow-md transition-all">
+              <img src="assets/slides/slide_3.png" alt="Slide 3" class="w-full object-cover aspect-video group-hover:scale-105 transition-transform duration-300">
+            </div>
+            <p class="text-xs text-stone-500 dark:text-stone-400 mt-2 truncate font-medium">3. 小宮燈與文創產出</p>
+          </div>
+
+          <div class="flex-none w-64 group cursor-pointer" onclick="openLightbox('assets/slides/slide_4.png', 'Slide 4: 排版地獄', '告別排版地獄')">
+            <div class="rounded-xl overflow-hidden border border-stone-200 dark:border-stone-700 shadow-sm group-hover:shadow-md transition-all">
+              <img src="assets/slides/slide_4.png" alt="Slide 4" class="w-full object-cover aspect-video group-hover:scale-105 transition-transform duration-300">
+            </div>
+            <p class="text-xs text-stone-500 dark:text-stone-400 mt-2 truncate font-medium">4. 告別排版地獄</p>
+          </div>
+
+          <div class="flex-none w-64 group cursor-pointer" onclick="openLightbox('assets/slides/slide_5.png', 'Slide 5: 攤位管理', '高效攤位管理術')">
+            <div class="rounded-xl overflow-hidden border border-stone-200 dark:border-stone-700 shadow-sm group-hover:shadow-md transition-all">
+              <img src="assets/slides/slide_5.png" alt="Slide 5" class="w-full object-cover aspect-video group-hover:scale-105 transition-transform duration-300">
+            </div>
+            <p class="text-xs text-stone-500 dark:text-stone-400 mt-2 truncate font-medium">5. 高效攤位管理術</p>
+          </div>
+
+          <div class="flex-none w-64 group cursor-pointer" onclick="openLightbox('assets/slides/slide_10.png', 'Slide 10: 詠唱公式', 'Box A + Box B = Box C')">
+            <div class="rounded-xl overflow-hidden border border-stone-200 dark:border-stone-700 shadow-sm group-hover:shadow-md transition-all">
+              <img src="assets/slides/slide_10.png" alt="Slide 10" class="w-full object-cover aspect-video group-hover:scale-105 transition-transform duration-300">
+            </div>
+            <p class="text-xs text-stone-500 dark:text-stone-400 mt-2 truncate font-medium">10. 高效詠唱公式</p>
+          </div>
+
+          <div class="flex-none w-64 group cursor-pointer" onclick="openLightbox('assets/slides/slide_15.png', 'Slide 15: 會議紀錄', '會議記錄不求人：生成網頁版精華手冊')">
+            <div class="rounded-xl overflow-hidden border border-stone-200 dark:border-stone-700 shadow-sm group-hover:shadow-md transition-all">
+              <img src="assets/slides/slide_15.png" alt="Slide 15" class="w-full object-cover aspect-video group-hover:scale-105 transition-transform duration-300">
+            </div>
+            <p class="text-xs text-stone-500 dark:text-stone-400 mt-2 truncate font-medium">15. 網頁版精華手冊</p>
+          </div>
+
+          <div class="flex-none w-64 group cursor-pointer" onclick="openLightbox('assets/slides/slide_21.png', 'Slide 21: 時間最無價', 'AI是強大提速放大器')">
+            <div class="rounded-xl overflow-hidden border border-stone-200 dark:border-stone-700 shadow-sm group-hover:shadow-md transition-all">
+              <img src="assets/slides/slide_21.png" alt="Slide 21" class="w-full object-cover aspect-video group-hover:scale-105 transition-transform duration-300">
+            </div>
+            <p class="text-xs text-stone-500 dark:text-stone-400 mt-2 truncate font-medium">21. 時間才是最無價的</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ================= SECTION 6: WORKSHOP REFLECTION & HIGHLIGHTS ================= -->
+  <section class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="bg-gradient-to-r from-stone-900 via-amber-950/80 to-stone-900 text-white rounded-3xl p-8 sm:p-12 shadow-2xl border border-amber-600/30 relative overflow-hidden">
+      <div class="absolute -right-20 -bottom-20 w-80 h-80 bg-amber-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+      <div class="relative z-10 max-w-3xl">
+        <span class="px-3 py-1 rounded-full bg-amber-500/30 text-amber-300 text-xs font-bold border border-amber-400/40">研習心得與成效</span>
+        <h2 class="font-serif text-3xl sm:text-4xl font-black mt-3 text-amber-200">
+          讓創意被看見，讓光芒親手點亮！
+        </h2>
+        <p class="text-stone-300 text-base leading-relaxed mt-4">
+          今日在陽明生活科技教室（iSTEM）的「1151031AI繪圖-小宮燈實作」研習，成功打破數位科技與實體創客的藩籬。老師們從零掌握 AI 提示詞詠唱與風格控制，將充滿台灣風情的萬聖節與聖誕節想像，化為手握的木雕小宮燈與隨身胸章。
+        </p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-8 pt-8 border-t border-amber-500/20">
+          <div>
+            <div class="text-amber-400 text-xl font-bold flex items-center gap-2 mb-1">
+              <i class="fa-solid fa-cube"></i> 跨域整合
+            </div>
+            <p class="text-xs text-stone-300">資訊科技 × 生活科技 × 視覺美學無縫接軌</p>
+          </div>
+          <div>
+            <div class="text-amber-400 text-xl font-bold flex items-center gap-2 mb-1">
+              <i class="fa-solid fa-hands-holding-circle"></i> 動手實作
+            </div>
+            <p class="text-xs text-stone-300">榫接木構、手壓徽章、LED 光學透光組裝</p>
+          </div>
+          <div>
+            <div class="text-amber-400 text-xl font-bold flex items-center gap-2 mb-1">
+              <i class="fa-solid fa-rocket"></i> 即學即用
+            </div>
+            <p class="text-xs text-stone-300">返校可立即轉化為校園文創營隊與課堂活動</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= FOOTER ================= -->
+  <footer class="bg-stone-950 text-stone-400 py-12 border-t border-stone-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-6 text-center md:text-left">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-amber-500/20 border border-amber-500/40 flex items-center justify-center text-amber-400 font-serif font-black">
+            🏮
+          </div>
+          <div>
+            <div class="font-serif font-bold text-stone-200">1151031AI繪圖-小宮燈實作 成果網站</div>
+            <div class="text-xs text-stone-500 font-mono">陽明高中生活科技教室 · 自造教育及科技中心 (AI T-Learn)</div>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-4 text-xs">
+          <a href="#home" class="hover:text-amber-400 transition-colors">回頂端</a>
+          <span>·</span>
+          <a href="#gallery" class="hover:text-amber-400 transition-colors">AI繪圖作品</a>
+          <span>·</span>
+          <a href="#workshop" class="hover:text-amber-400 transition-colors">現場相簿</a>
+          <span>·</span>
+          <a href="https://github.com/yaoshuchin/1151031-ai-drawing-lantern" target="_blank" class="hover:text-amber-400 transition-colors flex items-center gap-1">
+            <i class="fa-brands fa-github"></i> GitHub Repo
+          </a>
+        </div>
+      </div>
+
+      <div class="mt-8 pt-8 border-t border-stone-900 text-center text-xs text-stone-600 flex flex-col sm:flex-row items-center justify-between gap-2">
+        <p>© 115年10月31日 研習專案紀錄 · 本成果網站支援 GitHub Pages 託管</p>
+        <p class="font-mono text-stone-500">Made with ❤️ for AI & STEM Education</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ================= LIGHTBOX MODAL ================= -->
+  <div id="lightboxModal" class="fixed inset-0 z-50 bg-stone-950/90 backdrop-blur-md hidden items-center justify-center p-4 sm:p-6 transition-opacity duration-300" onclick="closeLightbox()">
+    <div class="relative max-w-4xl w-full bg-stone-900 border border-stone-700 rounded-2xl overflow-hidden shadow-2xl" onclick="event.stopPropagation()">
+      <!-- Close Button -->
+      <button onclick="closeLightbox()" class="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-stone-950/80 hover:bg-stone-800 text-stone-300 hover:text-white flex items-center justify-center border border-stone-700 transition-colors">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+
+      <!-- Lightbox Image -->
+      <div class="max-h-[70vh] bg-stone-950 flex items-center justify-center overflow-hidden">
+        <img id="lightboxImg" src="" alt="預覽大圖" class="w-full h-full object-contain max-h-[70vh]">
+      </div>
+
+      <!-- Lightbox Caption -->
+      <div class="p-6 bg-stone-900 text-white">
+        <h3 id="lightboxTitle" class="text-xl font-serif font-bold text-amber-300">標題</h3>
+        <p id="lightboxDesc" class="text-sm text-stone-300 mt-2 leading-relaxed">說明內容</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= JAVASCRIPT ================= -->
+  <script>
+    // Lantern Simulator Artwork rotation
+    const lanternArtworks = [
+      {
+        src: 'assets/ai/ai-halloween-watercolor.png',
+        title: '萬聖節水彩風透光片'
+      },
+      {
+        src: 'assets/ai/ai-halloween-manga.jpg',
+        title: '萬聖夜市漫畫風透光片'
+      },
+      {
+        src: 'assets/ai/ai-christmas-1.jpg',
+        title: '中式宮燈牌樓聖誕燈片'
+      },
+      {
+        src: 'assets/ai/ai-christmas-2.png',
+        title: '金色馴鹿雪夜聖誕燈片'
+      },
+      {
+        src: 'assets/ai/ai-christmas-3.jpg',
+        title: '台北聖誕市集溫暖燈片'
+      }
+    ];
+
+    let currentArtIndex = 0;
+    let isLanternLit = true;
+
+    function toggleLanternLight() {
+      const box = document.getElementById('palaceLanternBox');
+      const bulb = document.getElementById('simulatedBulb');
+      const img = document.getElementById('lanternWindowImg');
+      const label = document.getElementById('toggleLightLabel');
+
+      isLanternLit = !isLanternLit;
+      if (isLanternLit) {
+        box.classList.add('lantern-light-active');
+        bulb.style.opacity = '0.9';
+        img.style.filter = 'brightness(1.05) contrast(1.05)';
+        label.textContent = '關閉宮燈';
+      } else {
+        box.classList.remove('lantern-light-active');
+        bulb.style.opacity = '0.05';
+        img.style.filter = 'brightness(0.55) contrast(0.9)';
+        label.textContent = '點亮宮燈';
+      }
+    }
+
+    function nextLanternArt() {
+      currentArtIndex = (currentArtIndex + 1) % lanternArtworks.length;
+      const art = lanternArtworks[currentArtIndex];
+      const img = document.getElementById('lanternWindowImg');
+      const title = document.getElementById('lanternArtTitle');
+
+      img.style.opacity = '0';
+      setTimeout(() => {
+        img.src = art.src;
+        title.textContent = art.title;
+        img.style.opacity = '1';
+      }, 250);
+    }
+
+    // Toggle Overall Palace Lantern Glow Theme in Nav
+    let isGlobalGlow = true;
+    function toggleLanternGlow() {
+      isGlobalGlow = !isGlobalGlow;
+      const statusText = document.getElementById('glowStatusText');
+      if (isGlobalGlow) {
+        document.body.classList.remove('dark');
+        statusText.textContent = '宮燈點亮中';
+      } else {
+        document.body.classList.add('dark');
+        statusText.textContent = '夜幕深邃感';
+      }
+    }
+
+    // Gallery Filter
+    function filterGallery(category) {
+      const items = document.querySelectorAll('.artwork-item');
+      const btns = document.querySelectorAll('.gallery-filter-btn');
+
+      btns.forEach(btn => {
+        if (btn.dataset.filter === category) {
+          btn.classList.add('bg-amber-500', 'text-white');
+          btn.classList.remove('bg-stone-200', 'dark:bg-stone-800', 'text-stone-700', 'dark:text-stone-300');
+        } else {
+          btn.classList.remove('bg-amber-500', 'text-white');
+          btn.classList.add('bg-stone-200', 'dark:bg-stone-800', 'text-stone-700', 'dark:text-stone-300');
+        }
+      });
+
+      items.forEach(item => {
+        if (category === 'all' || item.classList.contains('gallery-' + category)) {
+          item.style.display = 'flex';
+        } else {
+          item.style.display = 'none';
+        }
+      });
+    }
+
+    // Lightbox handlers
+    function openLightbox(src, title, desc) {
+      document.getElementById('lightboxImg').src = src;
+      document.getElementById('lightboxTitle').textContent = title;
+      document.getElementById('lightboxDesc').textContent = desc;
+      const modal = document.getElementById('lightboxModal');
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+    }
+
+    function closeLightbox() {
+      const modal = document.getElementById('lightboxModal');
+      modal.classList.add('hidden');
+      modal.classList.remove('flex');
+    }
+
+    // Mobile Menu Toggle
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobileMenu');
+      menu.classList.toggle('hidden');
+    }
+
+    // Escape key closes modal
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeLightbox();
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+.DS_Store
+Thumbs.db
+*.tmp
+extracted_ppt_*
+.vscode/
+.idea/
