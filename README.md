@@ -2,7 +2,8 @@
 
 🏮 **115年10月31日 陽明生活科技教室 · AI 繪圖與小宮燈文創實作研習成果展**
 
-成果網站線上展示：[https://yaoshuchin.github.io/1151031-ai-drawing-lantern/](https://yaoshuchin.github.io/1151031-ai-drawing-lantern/)
+成果網站線上展示：[https://yaoshuchin.github.io/1151031-ai-drawing-lantern/](https://yaoshuchin.github.io/1151031-ai-drawing-lantern/)  
+陽明科技中心 FB 粉絲專頁：[https://www.facebook.com/makerteens/?locale=zh_TW](https://www.facebook.com/makerteens/?locale=zh_TW)
 
 ---
 

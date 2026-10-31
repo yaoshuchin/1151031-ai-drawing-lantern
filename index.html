@@ -132,13 +132,19 @@
         </div>
 
         <!-- Right Action Buttons -->
-        <div class="flex items-center gap-3">
+        <div class="flex items-center gap-2.5">
           <!-- Palace Lantern Light Mode Toggle -->
           <button id="lanternThemeBtn" onclick="toggleLanternGlow()" title="切換小宮燈點燈氛圍" class="px-3 py-1.5 rounded-lg bg-amber-500/20 border border-amber-400/40 text-amber-300 text-xs font-semibold hover:bg-amber-500/30 transition-all flex items-center gap-1.5">
             <i class="fa-solid fa-fire text-amber-400 animate-pulse"></i>
             <span id="glowStatusText">宮燈點亮中</span>
           </button>
           
+          <!-- Yangming Makerteens Facebook Link -->
+          <a href="https://www.facebook.com/makerteens/?locale=zh_TW" target="_blank" class="px-2.5 py-1.5 rounded-lg bg-[#1877F2]/15 hover:bg-[#1877F2]/25 text-[#1877F2] dark:text-[#5890ff] text-xs font-semibold flex items-center gap-1.5 border border-[#1877F2]/30 transition-all" title="陽明科技中心 Facebook 粉絲專頁">
+            <i class="fa-brands fa-facebook text-sm"></i>
+            <span class="hidden sm:inline">陽明科技中心</span>
+          </a>
+
           <!-- GitHub Repo Link -->
           <a href="https://github.com/yaoshuchin/1151031-ai-drawing-lantern" target="_blank" class="w-9 h-9 rounded-lg bg-stone-800 hover:bg-stone-700 text-stone-300 hover:text-white flex items-center justify-center transition-colors border border-stone-700" title="查看 GitHub 原始碼">
             <i class="fa-brands fa-github text-base"></i>
@@ -159,6 +165,9 @@
       <a href="#workshop" onclick="toggleMobileMenu()" class="block py-2 text-stone-200 hover:text-amber-400">生活科技創客現場</a>
       <a href="#slides" onclick="toggleMobileMenu()" class="block py-2 text-stone-200 hover:text-amber-400">AI魔法工作列教材</a>
       <a href="#lantern-sim" onclick="toggleMobileMenu()" class="block py-2 text-amber-400 font-bold">🏮 互動小宮燈點燈體驗</a>
+      <a href="https://www.facebook.com/makerteens/?locale=zh_TW" target="_blank" onclick="toggleMobileMenu()" class="block py-2 text-blue-400 font-medium flex items-center gap-2 border-t border-stone-800 pt-3">
+        <i class="fa-brands fa-facebook text-base"></i> 陽明科技中心 Facebook 粉絲專頁
+      </a>
     </div>
   </nav>
 
@@ -190,7 +199,10 @@
             <span class="px-3 py-1 bg-stone-200/80 dark:bg-stone-800 text-stone-700 dark:text-stone-300 text-xs rounded-md font-medium border border-stone-300 dark:border-stone-700"><i class="fa-solid fa-wand-magic-sparkles mr-1 text-amber-500"></i> AI 圖像詠唱</span>
             <span class="px-3 py-1 bg-stone-200/80 dark:bg-stone-800 text-stone-700 dark:text-stone-300 text-xs rounded-md font-medium border border-stone-300 dark:border-stone-700"><i class="fa-solid fa-torii-gate mr-1 text-red-500"></i> 小宮燈榫接組裝</span>
             <span class="px-3 py-1 bg-stone-200/80 dark:bg-stone-800 text-stone-700 dark:text-stone-300 text-xs rounded-md font-medium border border-stone-300 dark:border-stone-700"><i class="fa-solid fa-stamp mr-1 text-blue-500"></i> 胸章機壓扣實作</span>
-            <span class="px-3 py-1 bg-stone-200/80 dark:bg-stone-800 text-stone-700 dark:text-stone-300 text-xs rounded-md font-medium border border-stone-300 dark:border-stone-700"><i class="fa-solid fa-chalkboard-user mr-1 text-emerald-500"></i> 陽明科技中心 iSTEM</span>
+            <a href="https://www.facebook.com/makerteens/?locale=zh_TW" target="_blank" class="px-3 py-1 bg-blue-50 dark:bg-blue-950/50 hover:bg-blue-100 dark:hover:bg-blue-900/50 text-blue-700 dark:text-blue-300 text-xs rounded-md font-medium border border-blue-300 dark:border-blue-700 transition-colors flex items-center gap-1" title="前往陽明科技中心 Facebook 粉絲專頁">
+              <i class="fa-brands fa-facebook text-[#1877F2]"></i> 陽明科技中心 FB
+              <i class="fa-solid fa-arrow-up-right-from-square text-[9px] opacity-70"></i>
+            </a>
           </div>
 
           <!-- CTA Buttons -->
@@ -888,12 +900,16 @@
           </div>
         </div>
 
-        <div class="flex items-center gap-4 text-xs">
+        <div class="flex flex-wrap items-center justify-center md:justify-end gap-4 text-xs">
           <a href="#home" class="hover:text-amber-400 transition-colors">回頂端</a>
           <span>·</span>
           <a href="#gallery" class="hover:text-amber-400 transition-colors">AI繪圖作品</a>
           <span>·</span>
           <a href="#workshop" class="hover:text-amber-400 transition-colors">現場相簿</a>
+          <span>·</span>
+          <a href="https://www.facebook.com/makerteens/?locale=zh_TW" target="_blank" class="text-blue-400 hover:text-blue-300 font-medium transition-colors flex items-center gap-1.5" title="陽明科技中心 Facebook 粉絲專頁">
+            <i class="fa-brands fa-facebook text-sm text-[#1877F2]"></i> 陽明科技中心 FB
+          </a>
           <span>·</span>
           <a href="https://github.com/yaoshuchin/1151031-ai-drawing-lantern" target="_blank" class="hover:text-amber-400 transition-colors flex items-center gap-1">
             <i class="fa-brands fa-github"></i> GitHub Repo
