@@ -69,6 +69,23 @@
         }
       }
     }
+
+    // Switch Hero Palace Lantern featured image
+    function switchHeroLantern(src, btn) {
+      const img = document.getElementById('heroLanternImg');
+      if (img) {
+        img.src = src;
+      }
+      document.querySelectorAll('.hero-lantern-btn').forEach(b => {
+        b.classList.remove('ring-2', 'ring-amber-400', 'active');
+        b.classList.add('opacity-60');
+      });
+      if (btn) {
+        btn.classList.add('ring-2', 'ring-amber-400', 'active');
+        btn.classList.remove('opacity-60');
+      }
+    }
+
   </script>
 
   <style>
@@ -124,6 +141,8 @@
         <div class="hidden md:flex items-center space-x-5 text-sm font-medium">
           <!-- 1. 活動核心 -->
           <a href="#highlights" class="text-stone-300 hover:text-amber-400 transition-colors">活動核心</a>
+          <!-- 1.5 教學重點 -->
+          <a href="#teaching-points" class="text-stone-300 hover:text-amber-400 transition-colors">教學重點</a>
           
           <!-- 2. 作品與現場 (二層下拉) -->
           <div class="relative group py-2">
@@ -268,9 +287,10 @@
     <!-- Mobile Navigation Drawer -->
     <div id="mobileMenu" class="hidden md:hidden bg-stone-900 border-b border-stone-800 px-4 pt-3 pb-5 space-y-3 text-sm">
       <!-- 快速連結按鈕 -->
-      <div class="grid grid-cols-2 gap-2 pb-2 border-b border-stone-800">
-        <a href="#highlights" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-lg bg-stone-800 text-stone-200 hover:text-amber-400 text-xs font-medium text-center">活動核心</a>
-        <a href="#lantern-sim" onclick="toggleMobileMenu()" class="block px-3 py-2 rounded-lg bg-amber-500/20 text-amber-300 font-bold text-xs text-center">🏮 互動小宮燈</a>
+      <div class="grid grid-cols-3 gap-2 pb-2 border-b border-stone-800">
+        <a href="#highlights" onclick="toggleMobileMenu()" class="block px-2 py-2 rounded-lg bg-stone-800 text-stone-200 hover:text-amber-400 text-xs font-medium text-center">活動核心</a>
+        <a href="#teaching-points" onclick="toggleMobileMenu()" class="block px-2 py-2 rounded-lg bg-stone-800 text-stone-200 hover:text-amber-400 text-xs font-medium text-center">教學重點</a>
+        <a href="#lantern-sim" onclick="toggleMobileMenu()" class="block px-2 py-2 rounded-lg bg-amber-500/20 text-amber-300 font-bold text-xs text-center">🏮 宮燈</a>
       </div>
 
       <!-- 成果展示 -->
@@ -390,40 +410,51 @@
           </div>
         </div>
 
-        <!-- Right Hero Visual Card -->
+        <!-- Right Hero Visual Card (Featured Palace Lantern Showcase) -->
         <div class="lg:col-span-5 relative">
           <div class="relative mx-auto max-w-sm sm:max-w-md">
             <!-- Decorative Backing Lantern Frame -->
             <div class="absolute -inset-2 bg-gradient-to-r from-amber-500 via-red-500 to-amber-600 rounded-3xl blur-lg opacity-40 animate-glow-pulse"></div>
             
             <div class="relative rounded-2xl overflow-hidden shadow-2xl border-4 border-amber-600/30 bg-stone-900 group">
-              <!-- Hero Featured Image (Live Lamp + Badges + Laptop) -->
-              <img src="assets/workshop/PXL_20261031_044714282.jpg" alt="AI繪圖小宮燈現場實作精選" class="w-full h-80 sm:h-96 object-cover object-center group-hover:scale-105 transition-transform duration-700">
+              <!-- Hero Featured Image (3 Cover Photos Switchable) -->
+              <img id="heroLanternImg" src="assets/other/1151031小宮燈封面3.jpg" alt="1151031 AI繪圖手作實體小宮燈" class="w-full h-80 sm:h-96 object-cover object-center group-hover:scale-105 transition-transform duration-700 cursor-pointer" onclick="openLightbox(this.src, '手作點亮小宮燈 · 實體成果', '研習現場精緻雷切木刻榫接組裝完成並已點亮的小宮燈實體成果')">
               
               <!-- Floating Pill Over Image -->
               <div class="absolute top-4 left-4 px-3 py-1 rounded-full bg-stone-900/80 backdrop-blur-md text-amber-300 text-xs font-semibold border border-amber-500/40 flex items-center gap-1.5 shadow">
-                <i class="fa-solid fa-trophy text-amber-400"></i> 今日成果實體直擊
+                <i class="fa-solid fa-trophy text-amber-400"></i> 小宮燈實體成果直擊
               </div>
 
               <!-- Overlay Card Info -->
               <div class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-stone-950 via-stone-950/80 to-transparent p-5 text-white">
-                <h3 class="text-lg font-bold font-serif text-amber-300">手作小宮燈 × AI 創意胸章</h3>
+                <h3 class="text-lg font-bold font-serif text-amber-300">手作小宮燈 · 實體點燈成果</h3>
                 <p class="text-xs text-stone-300 mt-1">
-                  從螢幕提示詞詠唱，到現場雷切透光木質小宮燈，師生共同點亮科技與美學之光。
+                  雷切木雕榫接結構 × 暖光 LED × AI 自製透光窗片
                 </p>
-                <div class="flex items-center justify-between mt-3 text-xs text-amber-400 font-mono">
-                  <span><i class="fa-regular fa-clock mr-1"></i>2026/10/31 研習</span>
-                  <span class="bg-amber-500/20 px-2 py-0.5 rounded text-amber-300">實體點燈成功</span>
+                <!-- Switcher for 3 lantern photos -->
+                <div class="flex items-center gap-2 mt-3 pt-3 border-t border-stone-800/80">
+                  <span class="text-[10px] text-stone-400 font-medium">視角切換：</span>
+                  <button type="button" onclick="switchHeroLantern('assets/other/1151031小宮燈封面3.jpg', this)" class="hero-lantern-btn active ring-2 ring-amber-400 w-11 h-8 rounded-md overflow-hidden shadow">
+                    <img src="assets/other/1151031小宮燈封面3.jpg" class="w-full h-full object-cover">
+                  </button>
+                  <button type="button" onclick="switchHeroLantern('assets/other/1151031小宮燈封面.jpg', this)" class="hero-lantern-btn opacity-60 hover:opacity-100 transition-opacity w-11 h-8 rounded-md overflow-hidden shadow">
+                    <img src="assets/other/1151031小宮燈封面.jpg" class="w-full h-full object-cover">
+                  </button>
+                  <button type="button" onclick="switchHeroLantern('assets/other/1151031小宮燈封面2.jpg', this)" class="hero-lantern-btn opacity-60 hover:opacity-100 transition-opacity w-11 h-8 rounded-md overflow-hidden shadow">
+                    <img src="assets/other/1151031小宮燈封面2.jpg" class="w-full h-full object-cover">
+                  </button>
                 </div>
               </div>
             </div>
 
-            <!-- Mini Overlay Thumbnail -->
-            <div class="absolute -bottom-6 -left-6 w-28 h-28 sm:w-32 sm:h-32 rounded-2xl overflow-hidden border-2 border-amber-400 shadow-xl bg-stone-800 hidden sm:block transform hover:rotate-2 transition-transform">
-              <img src="assets/ai/ai-halloween-watercolor.png" alt="萬聖節AI圖" class="w-full h-full object-cover">
+            <!-- Mini Overlay Thumbnails for the other two lantern shots -->
+            <div class="absolute -bottom-6 -left-6 w-28 h-28 sm:w-32 sm:h-32 rounded-2xl overflow-hidden border-2 border-amber-400 shadow-xl bg-stone-800 hidden sm:block transform hover:rotate-2 transition-transform cursor-pointer" onclick="openLightbox('assets/other/1151031小宮燈封面.jpg', '小宮燈特寫鏡頭', '手作木質小宮燈組裝成品特寫')">
+              <img src="assets/other/1151031小宮燈封面.jpg" alt="小宮燈封面特寫" class="w-full h-full object-cover">
+              <div class="absolute bottom-1 inset-x-1 text-[10px] bg-stone-900/80 text-amber-300 text-center rounded py-0.5 font-bold">特寫角度</div>
             </div>
-            <div class="absolute -top-6 -right-6 w-28 h-28 sm:w-32 sm:h-32 rounded-2xl overflow-hidden border-2 border-amber-400 shadow-xl bg-stone-800 hidden sm:block transform hover:-rotate-2 transition-transform">
-              <img src="assets/ai/ai-christmas-2.png" alt="聖誕節AI圖" class="w-full h-full object-cover">
+            <div class="absolute -top-6 -right-6 w-28 h-28 sm:w-32 sm:h-32 rounded-2xl overflow-hidden border-2 border-amber-400 shadow-xl bg-stone-800 hidden sm:block transform hover:-rotate-2 transition-transform cursor-pointer" onclick="openLightbox('assets/other/1151031小宮燈封面2.jpg', '小宮燈光影視角', '小宮燈在暗處透光溫潤光芒效果')">
+              <img src="assets/other/1151031小宮燈封面2.jpg" alt="小宮燈封面透光" class="w-full h-full object-cover">
+              <div class="absolute bottom-1 inset-x-1 text-[10px] bg-stone-900/80 text-amber-300 text-center rounded py-0.5 font-bold">點燈透光</div>
             </div>
           </div>
         </div>
@@ -507,6 +538,294 @@
           </div>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- ================= SECTION: TEACHING KEYPOINTS ================= -->
+  <section id="teaching-points" class="py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-b border-stone-200 dark:border-stone-800">
+    <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+      <div>
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-600 dark:text-amber-400 text-xs font-bold uppercase tracking-wider mb-2">
+          <i class="fa-solid fa-graduation-cap"></i> Curriculum Key Takeaways
+        </div>
+        <h2 class="font-serif text-3xl sm:text-4xl font-extrabold text-stone-900 dark:text-white mt-1">
+          📚 研習教學重點與核心解說
+        </h2>
+        <p class="text-stone-600 dark:text-stone-300 text-sm sm:text-base mt-2 max-w-3xl leading-relaxed">
+          彙整研習課堂 10 大核心教學架構：從生成式 AI 提示詞工程、角色風格一致性、跨領域教案融入，到手壓胸章機實體轉化與語音行政提速，打造完整數位教學賦能地圖。
+        </p>
+      </div>
+
+      <div class="mt-4 md:mt-0 flex items-center gap-2">
+        <span class="text-xs font-mono text-stone-500 dark:text-stone-400 bg-stone-100 dark:bg-stone-800 px-3.5 py-2 rounded-xl border border-stone-200 dark:border-stone-700 shadow-sm">
+          <i class="fa-solid fa-layer-group text-amber-500 mr-1"></i> 共 10 大教學實務主題
+        </span>
+      </div>
+    </div>
+
+    <!-- 10 Teaching Points Cards Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      
+      <!-- Card 1: AI 生圖創意教學 1 -->
+      <div class="glass-card rounded-2xl overflow-hidden shadow-md border border-stone-200 dark:border-stone-800 flex flex-col justify-between group hover:border-amber-400 dark:hover:border-amber-500 transition-all hover:shadow-xl bg-white/60 dark:bg-stone-900/60">
+        <div>
+          <div class="relative overflow-hidden aspect-video bg-stone-950 cursor-pointer" onclick="openLightbox('assets/other/1151031AI生圖創意教學.jpg', '單元 1：AI 生成式繪圖創意教學', '引導教師掌握生成式 AI 核心概念，從自然語言文字引導轉化為高品質教學視覺素材')">
+            <img src="assets/other/1151031AI生圖創意教學.jpg" alt="AI生圖創意教學" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            <div class="absolute top-3 left-3 px-2.5 py-0.5 rounded-full bg-stone-900/80 backdrop-blur-md text-[11px] font-bold text-amber-400 border border-amber-400/40">
+              重點 01 · 創意入門
+            </div>
+          </div>
+          <div class="p-5">
+            <h3 class="font-serif text-lg font-bold text-stone-900 dark:text-stone-100 mb-2 group-hover:text-amber-500 transition-colors">
+              AI 生成式繪圖創意教學
+            </h3>
+            <p class="text-xs sm:text-sm text-stone-600 dark:text-stone-300 leading-relaxed">
+              引領教育工作者突破傳統繪圖門檻，運用自然語言敘述將教學抽象概念視覺化，激發學生課堂想像力與探索精神。
+            </p>
+          </div>
+        </div>
+        <div class="px-5 pb-5 pt-2 border-t border-stone-200/60 dark:border-stone-800/60 flex items-center justify-between text-xs text-stone-500">
+          <span class="font-mono text-[11px] bg-amber-500/10 text-amber-600 dark:text-amber-400 px-2 py-0.5 rounded">提示詞引導</span>
+          <span class="cursor-pointer text-amber-600 dark:text-amber-400 hover:underline flex items-center gap-1 font-semibold" onclick="openLightbox('assets/other/1151031AI生圖創意教學.jpg', 'AI生圖創意教學', '教學重點詳細說明')">
+            查看大圖 <i class="fa-solid fa-arrow-right text-[10px]"></i>
+          </span>
+        </div>
+      </div>
+
+      <!-- Card 2: AI 生圖創意教學 2 -->
+      <div class="glass-card rounded-2xl overflow-hidden shadow-md border border-stone-200 dark:border-stone-800 flex flex-col justify-between group hover:border-amber-400 dark:hover:border-amber-500 transition-all hover:shadow-xl bg-white/60 dark:bg-stone-900/60">
+        <div>
+          <div class="relative overflow-hidden aspect-video bg-stone-950 cursor-pointer" onclick="openLightbox('assets/other/1151031AI生圖創意教學2.jpg', '單元 2：課堂教學應用與提示詞進階', '深入解析詠唱提示詞公式結構：主體 + 畫風 + 構圖 + 氛圍燈光，精準掌控生成品質')">
+            <img src="assets/other/1151031AI生圖創意教學2.jpg" alt="AI生圖創意教學進階" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            <div class="absolute top-3 left-3 px-2.5 py-0.5 rounded-full bg-stone-900/80 backdrop-blur-md text-[11px] font-bold text-amber-400 border border-amber-400/40">
+              重點 02 · 實踐進階
+            </div>
+          </div>
+          <div class="p-5">
+            <h3 class="font-serif text-lg font-bold text-stone-900 dark:text-stone-100 mb-2 group-hover:text-amber-500 transition-colors">
+              提示詞進階與課堂實踐
+            </h3>
+            <p class="text-xs sm:text-sm text-stone-600 dark:text-stone-300 leading-relaxed">
+              拆解提示詞四要素（主體特徵、藝術風格、鏡頭視角、環境氛圍），讓生成圖像精準對齊課堂教案目標，杜絕不可控隨機性。
+            </p>
+          </div>
+        </div>
+        <div class="px-5 pb-5 pt-2 border-t border-stone-200/60 dark:border-stone-800/60 flex items-center justify-between text-xs text-stone-500">
+          <span class="font-mono text-[11px] bg-amber-500/10 text-amber-600 dark:text-amber-400 px-2 py-0.5 rounded">四要素結構</span>
+          <span class="cursor-pointer text-amber-600 dark:text-amber-400 hover:underline flex items-center gap-1 font-semibold" onclick="openLightbox('assets/other/1151031AI生圖創意教學2.jpg', '提示詞進階', '教學重點詳細說明')">
+            查看大圖 <i class="fa-solid fa-arrow-right text-[10px]"></i>
+          </span>
+        </div>
+      </div>
+
+      <!-- Card 3: AI 角色一致性 -->
+      <div class="glass-card rounded-2xl overflow-hidden shadow-md border border-stone-200 dark:border-stone-800 flex flex-col justify-between group hover:border-amber-400 dark:hover:border-amber-500 transition-all hover:shadow-xl bg-white/60 dark:bg-stone-900/60">
+        <div>
+          <div class="relative overflow-hidden aspect-video bg-stone-950 cursor-pointer" onclick="openLightbox('assets/other/1151031AI角色.jpg', '單元 3：AI 角色一致性與特徵錨定', '解決AI生成人物前後不一的核心技術，固定特徵關鍵詞與種子碼Seed，產出連貫繪本')">
+            <img src="assets/other/1151031AI角色.jpg" alt="AI角色一致性" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            <div class="absolute top-3 left-3 px-2.5 py-0.5 rounded-full bg-stone-900/80 backdrop-blur-md text-[11px] font-bold text-purple-400 border border-purple-400/40">
+              重點 03 · 角色錨定
+            </div>
+          </div>
+          <div class="p-5">
+            <h3 class="font-serif text-lg font-bold text-stone-900 dark:text-stone-100 mb-2 group-hover:text-amber-500 transition-colors">
+              AI 角色一致性與造型設計
+            </h3>
+            <p class="text-xs sm:text-sm text-stone-600 dark:text-stone-300 leading-relaxed">
+              破解 AI 繪本創作最大痛點！透過外觀特徵錨定、多視角提示與固定風格參數，維持主角造型前後一致，利於連環故事創作。
+            </p>
+          </div>
+        </div>
+        <div class="px-5 pb-5 pt-2 border-t border-stone-200/60 dark:border-stone-800/60 flex items-center justify-between text-xs text-stone-500">
+          <span class="font-mono text-[11px] bg-purple-500/10 text-purple-600 dark:text-purple-400 px-2 py-0.5 rounded">連貫繪本</span>
+          <span class="cursor-pointer text-amber-600 dark:text-amber-400 hover:underline flex items-center gap-1 font-semibold" onclick="openLightbox('assets/other/1151031AI角色.jpg', 'AI角色一致性', '教學重點詳細說明')">
+            查看大圖 <i class="fa-solid fa-arrow-right text-[10px]"></i>
+          </span>
+        </div>
+      </div>
+
+      <!-- Card 4: 生圖與萬聖節在地化 -->
+      <div class="glass-card rounded-2xl overflow-hidden shadow-md border border-stone-200 dark:border-stone-800 flex flex-col justify-between group hover:border-amber-400 dark:hover:border-amber-500 transition-all hover:shadow-xl bg-white/60 dark:bg-stone-900/60">
+        <div>
+          <div class="relative overflow-hidden aspect-video bg-stone-950 cursor-pointer" onclick="openLightbox('assets/other/1151031-生圖與萬聖節.jpg', '單元 4：節慶情境在地化融合（萬聖節）', '融合西洋萬聖節意象與台灣在地地標，實現跨文化創意思辨與美學表現')">
+            <img src="assets/other/1151031-生圖與萬聖節.jpg" alt="生圖與萬聖節" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            <div class="absolute top-3 left-3 px-2.5 py-0.5 rounded-full bg-stone-900/80 backdrop-blur-md text-[11px] font-bold text-orange-400 border border-orange-400/40">
+              重點 04 · 節慶在地化
+            </div>
+          </div>
+          <div class="p-5">
+            <h3 class="font-serif text-lg font-bold text-stone-900 dark:text-stone-100 mb-2 group-hover:text-amber-500 transition-colors">
+              在地情境融合：萬聖與節慶
+            </h3>
+            <p class="text-xs sm:text-sm text-stone-600 dark:text-stone-300 leading-relaxed">
+              示範如何將西方萬聖節鬼靈南瓜意象，巧妙融合台北 101、夜市燈火與廟宇牌樓，打造兼具國際視野與在地認同的文創作品。
+            </p>
+          </div>
+        </div>
+        <div class="px-5 pb-5 pt-2 border-t border-stone-200/60 dark:border-stone-800/60 flex items-center justify-between text-xs text-stone-500">
+          <span class="font-mono text-[11px] bg-orange-500/10 text-orange-600 dark:text-orange-400 px-2 py-0.5 rounded">文化融合</span>
+          <span class="cursor-pointer text-amber-600 dark:text-amber-400 hover:underline flex items-center gap-1 font-semibold" onclick="openLightbox('assets/other/1151031-生圖與萬聖節.jpg', '節慶在地化', '教學重點詳細說明')">
+            查看大圖 <i class="fa-solid fa-arrow-right text-[10px]"></i>
+          </span>
+        </div>
+      </div>
+
+      <!-- Card 5: 圖像比例 -->
+      <div class="glass-card rounded-2xl overflow-hidden shadow-md border border-stone-200 dark:border-stone-800 flex flex-col justify-between group hover:border-amber-400 dark:hover:border-amber-500 transition-all hover:shadow-xl bg-white/60 dark:bg-stone-900/60">
+        <div>
+          <div class="relative overflow-hidden aspect-video bg-stone-950 cursor-pointer" onclick="openLightbox('assets/other/1151031圖像比例.jpg', '單元 5：圖像比例設定與構圖規範', '掌握1:1、16:9及圓形裁切規範，完美符合雷切燈片與手壓胸章機模具要求')">
+            <img src="assets/other/1151031圖像比例.jpg" alt="圖像比例設定" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            <div class="absolute top-3 left-3 px-2.5 py-0.5 rounded-full bg-stone-900/80 backdrop-blur-md text-[11px] font-bold text-blue-400 border border-blue-400/40">
+              重點 05 · 構圖規格
+            </div>
+          </div>
+          <div class="p-5">
+            <h3 class="font-serif text-lg font-bold text-stone-900 dark:text-stone-100 mb-2 group-hover:text-amber-500 transition-colors">
+              圖像比例設定與排版規範
+            </h3>
+            <p class="text-xs sm:text-sm text-stone-600 dark:text-stone-300 leading-relaxed">
+              設定畫面長寬比（--ar 1:1 / 16:9）及出血留白安全邊界，直通小宮燈透光窗口與 58mm 胸章機模具，避免成品重要圖案遭到裁切。
+            </p>
+          </div>
+        </div>
+        <div class="px-5 pb-5 pt-2 border-t border-stone-200/60 dark:border-stone-800/60 flex items-center justify-between text-xs text-stone-500">
+          <span class="font-mono text-[11px] bg-blue-500/10 text-blue-600 dark:text-blue-400 px-2 py-0.5 rounded">尺寸與出血</span>
+          <span class="cursor-pointer text-amber-600 dark:text-amber-400 hover:underline flex items-center gap-1 font-semibold" onclick="openLightbox('assets/other/1151031圖像比例.jpg', '圖像比例', '教學重點詳細說明')">
+            查看大圖 <i class="fa-solid fa-arrow-right text-[10px]"></i>
+          </span>
+        </div>
+      </div>
+
+      <!-- Card 6: AI 國防教育 -->
+      <div class="glass-card rounded-2xl overflow-hidden shadow-md border border-stone-200 dark:border-stone-800 flex flex-col justify-between group hover:border-amber-400 dark:hover:border-amber-500 transition-all hover:shadow-xl bg-white/60 dark:bg-stone-900/60">
+        <div>
+          <div class="relative overflow-hidden aspect-video bg-stone-950 cursor-pointer" onclick="openLightbox('assets/other/1151031AI國防教育.jpg', '單元 6：跨領域教案——AI 融入國防教育', '生動生成國防科技與軍事模型視覺素材，實踐科技跨領域融入學科教學')">
+            <img src="assets/other/1151031AI國防教育.jpg" alt="AI國防教育" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            <div class="absolute top-3 left-3 px-2.5 py-0.5 rounded-full bg-stone-900/80 backdrop-blur-md text-[11px] font-bold text-emerald-400 border border-emerald-400/40">
+              重點 06 · 跨域教案
+            </div>
+          </div>
+          <div class="p-5">
+            <h3 class="font-serif text-lg font-bold text-stone-900 dark:text-stone-100 mb-2 group-hover:text-amber-500 transition-colors">
+              跨域教學：AI 融入國防教育
+            </h3>
+            <p class="text-xs sm:text-sm text-stone-600 dark:text-stone-300 leading-relaxed">
+              示範 AI 跨領域融入重大議題教案！利用生成科技將尖端國防軍事載具與歷史防衛情境立體化，大幅提升學生課堂參與度。
+            </p>
+          </div>
+        </div>
+        <div class="px-5 pb-5 pt-2 border-t border-stone-200/60 dark:border-stone-800/60 flex items-center justify-between text-xs text-stone-500">
+          <span class="font-mono text-[11px] bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 px-2 py-0.5 rounded">跨學科整合</span>
+          <span class="cursor-pointer text-amber-600 dark:text-amber-400 hover:underline flex items-center gap-1 font-semibold" onclick="openLightbox('assets/other/1151031AI國防教育.jpg', 'AI國防教育', '教學重點詳細說明')">
+            查看大圖 <i class="fa-solid fa-arrow-right text-[10px]"></i>
+          </span>
+        </div>
+      </div>
+
+      <!-- Card 7: 真假 AI 辨識 -->
+      <div class="glass-card rounded-2xl overflow-hidden shadow-md border border-stone-200 dark:border-stone-800 flex flex-col justify-between group hover:border-amber-400 dark:hover:border-amber-500 transition-all hover:shadow-xl bg-white/60 dark:bg-stone-900/60">
+        <div>
+          <div class="relative overflow-hidden aspect-video bg-stone-950 cursor-pointer" onclick="openLightbox('assets/other/1151031真假AI辨識.jpg', '單元 7：真假 AI 辨識與資訊素養', '引導辨識生成式影像特徵，培養數位時代面對 Deepfake 與假訊息的關鍵思辨力')">
+            <img src="assets/other/1151031真假AI辨識.jpg" alt="真假AI辨識" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            <div class="absolute top-3 left-3 px-2.5 py-0.5 rounded-full bg-stone-900/80 backdrop-blur-md text-[11px] font-bold text-rose-400 border border-rose-400/40">
+              重點 07 · 數位素養
+            </div>
+          </div>
+          <div class="p-5">
+            <h3 class="font-serif text-lg font-bold text-stone-900 dark:text-stone-100 mb-2 group-hover:text-amber-500 transition-colors">
+              真假 AI 辨識與數位倫理素養
+            </h3>
+            <p class="text-xs sm:text-sm text-stone-600 dark:text-stone-300 leading-relaxed">
+              培育資訊時代的識讀雙眼！從人手手指細節、反射光影破綻與文字筆畫畸變，系統性學會辨析 AI 生成與真實拍攝之差異。
+            </p>
+          </div>
+        </div>
+        <div class="px-5 pb-5 pt-2 border-t border-stone-200/60 dark:border-stone-800/60 flex items-center justify-between text-xs text-stone-500">
+          <span class="font-mono text-[11px] bg-rose-500/10 text-rose-600 dark:text-rose-400 px-2 py-0.5 rounded">媒體識讀</span>
+          <span class="cursor-pointer text-amber-600 dark:text-amber-400 hover:underline flex items-center gap-1 font-semibold" onclick="openLightbox('assets/other/1151031真假AI辨識.jpg', '真假AI辨識', '教學重點詳細說明')">
+            查看大圖 <i class="fa-solid fa-arrow-right text-[10px]"></i>
+          </span>
+        </div>
+      </div>
+
+      <!-- Card 8: 徵章機操作實作 -->
+      <div class="glass-card rounded-2xl overflow-hidden shadow-md border border-stone-200 dark:border-stone-800 flex flex-col justify-between group hover:border-amber-400 dark:hover:border-amber-500 transition-all hover:shadow-xl bg-white/60 dark:bg-stone-900/60">
+        <div>
+          <div class="relative overflow-hidden aspect-video bg-stone-950 cursor-pointer" onclick="openLightbox('assets/other/1151031徵章機.jpg', '單元 8：手壓胸章機實作與轉化', '生活科技動手做！鐵蓋、圖稿、保護膜至壓模成型的標準化量產流程')">
+            <img src="assets/other/1151031徵章機.jpg" alt="胸章機操作" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            <div class="absolute top-3 left-3 px-2.5 py-0.5 rounded-full bg-stone-900/80 backdrop-blur-md text-[11px] font-bold text-amber-400 border border-amber-400/40">
+              重點 08 · 文創量產
+            </div>
+          </div>
+          <div class="p-5">
+            <h3 class="font-serif text-lg font-bold text-stone-900 dark:text-stone-100 mb-2 group-hover:text-amber-500 transition-colors">
+              胸章機壓模實作與文創轉化
+            </h3>
+            <p class="text-xs sm:text-sm text-stone-600 dark:text-stone-300 leading-relaxed">
+              生活科技實體化轉化！將剛產出的圓形 AI 圖案，經由手壓胸章機精密模具一壓成型，快速產出可隨身配戴的專屬研習紀念胸章。
+            </p>
+          </div>
+        </div>
+        <div class="px-5 pb-5 pt-2 border-t border-stone-200/60 dark:border-stone-800/60 flex items-center justify-between text-xs text-stone-500">
+          <span class="font-mono text-[11px] bg-amber-500/10 text-amber-600 dark:text-amber-400 px-2 py-0.5 rounded">實體加工</span>
+          <span class="cursor-pointer text-amber-600 dark:text-amber-400 hover:underline flex items-center gap-1 font-semibold" onclick="openLightbox('assets/other/1151031徵章機.jpg', '胸章機實作', '教學重點詳細說明')">
+            查看大圖 <i class="fa-solid fa-arrow-right text-[10px]"></i>
+          </span>
+        </div>
+      </div>
+
+      <!-- Card 9: 自製胸章機 -->
+      <div class="glass-card rounded-2xl overflow-hidden shadow-md border border-stone-200 dark:border-stone-800 flex flex-col justify-between group hover:border-amber-400 dark:hover:border-amber-500 transition-all hover:shadow-xl bg-white/60 dark:bg-stone-900/60">
+        <div>
+          <div class="relative overflow-hidden aspect-video bg-stone-950 cursor-pointer" onclick="openLightbox('assets/other/1151031自製徵章機.jpg', '單元 9：自製生活科技教具與創客機台', '自造教育理念展現：機械槓桿結構、壓頭力道平衡與創客機台改良')">
+            <img src="assets/other/1151031自製徵章機.jpg" alt="自製胸章機" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            <div class="absolute top-3 left-3 px-2.5 py-0.5 rounded-full bg-stone-900/80 backdrop-blur-md text-[11px] font-bold text-teal-400 border border-teal-400/40">
+              重點 09 · 機具結構
+            </div>
+          </div>
+          <div class="p-5">
+            <h3 class="font-serif text-lg font-bold text-stone-900 dark:text-stone-100 mb-2 group-hover:text-amber-500 transition-colors">
+              自造精神：生活科技機具結構
+            </h3>
+            <p class="text-xs sm:text-sm text-stone-600 dark:text-stone-300 leading-relaxed">
+              展現生活科技中心自造（Maker）底蘊！解析槓桿省力機構原理與模具定位技巧，培養動手解決問題與機具改良的工程思維。
+            </p>
+          </div>
+        </div>
+        <div class="px-5 pb-5 pt-2 border-t border-stone-200/60 dark:border-stone-800/60 flex items-center justify-between text-xs text-stone-500">
+          <span class="font-mono text-[11px] bg-teal-500/10 text-teal-600 dark:text-teal-400 px-2 py-0.5 rounded">自造工程</span>
+          <span class="cursor-pointer text-amber-600 dark:text-amber-400 hover:underline flex items-center gap-1 font-semibold" onclick="openLightbox('assets/other/1151031自製徵章機.jpg', '自製胸章機', '教學重點詳細說明')">
+            查看大圖 <i class="fa-solid fa-arrow-right text-[10px]"></i>
+          </span>
+        </div>
+      </div>
+
+      <!-- Card 10: 錄音轉逐字稿 -->
+      <div class="glass-card rounded-2xl overflow-hidden shadow-md border border-stone-200 dark:border-stone-800 flex flex-col justify-between group hover:border-amber-400 dark:hover:border-amber-500 transition-all hover:shadow-xl bg-white/60 dark:bg-stone-900/60 md:col-span-2 lg:col-span-3">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+          <div class="md:col-span-5 relative overflow-hidden aspect-video bg-stone-950 cursor-pointer rounded-xl m-4" onclick="openLightbox('assets/other/1151031錄音轉逐字稿.jpg', '單元 10：行政庶務提速——AI 錄音轉逐字稿', '自動化辨識演講語音、智能切分段落並即時生成網頁版精華手冊')">
+            <img src="assets/other/1151031錄音轉逐字稿.jpg" alt="錄音轉逐字稿" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            <div class="absolute top-3 left-3 px-2.5 py-0.5 rounded-full bg-stone-900/80 backdrop-blur-md text-[11px] font-bold text-sky-400 border border-sky-400/40">
+              重點 10 · 行政提速
+            </div>
+          </div>
+          <div class="md:col-span-7 p-4 pr-6">
+            <span class="text-xs font-mono font-bold text-sky-600 dark:text-sky-400">效率放大器 · 徹底解放雙手</span>
+            <h3 class="font-serif text-xl sm:text-2xl font-black text-stone-900 dark:text-stone-100 mt-1 mb-3 group-hover:text-amber-500 transition-colors">
+              演講錄音自動辨識 · 會議精華網頁速成
+            </h3>
+            <p class="text-xs sm:text-sm text-stone-600 dark:text-stone-300 leading-relaxed mb-4">
+              學校研習、課堂討論或行政會議往往消耗大量時間謄寫紀錄。本單元示範語音辨識模型與大語言模型（LLM）聯手，將數小時的錄音檔在數分鐘內自動辨識、智能去贅字、提煉條列摘要，並一鍵編排為網頁版研習手冊！
+            </p>
+            <div class="flex flex-wrap gap-2">
+              <span class="text-xs px-2.5 py-1 rounded-md bg-sky-500/10 text-sky-600 dark:text-sky-400 font-mono">#語音辨識</span>
+              <span class="text-xs px-2.5 py-1 rounded-md bg-sky-500/10 text-sky-600 dark:text-sky-400 font-mono">#自動摘要</span>
+              <span class="text-xs px-2.5 py-1 rounded-md bg-sky-500/10 text-sky-600 dark:text-sky-400 font-mono">#網頁手冊</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </section>
 
